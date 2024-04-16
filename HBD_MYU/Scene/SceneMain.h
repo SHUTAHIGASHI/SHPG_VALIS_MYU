@@ -1,0 +1,37 @@
+#pragma once
+#include "Scene.h"
+#include <memory>
+#include "GameDataManager.h"
+
+class SceneMain :
+    public Scene
+{
+public:
+    // コンストラクタ
+    SceneMain(SceneManager& manager);
+    // デストラクタ
+    virtual ~SceneMain();
+
+    // 更新処理
+    void Update(const InputState& input);
+    // 描画処理
+    void Draw();
+
+private:
+    // メンバ関数ポインタ(更新)
+    using m_tUpdateFunc = void (SceneMain::*) (const InputState& input);
+    m_tUpdateFunc m_updateFunc = nullptr;
+    void NormalUpdate(const InputState& input);
+
+    // メンバ関数ポインタ(描画)
+    using m_tDrawFunc = void (SceneMain::*) ();
+    m_tDrawFunc m_drawFunc = nullptr;
+    void NormalDraw();
+
+private:
+    // 終了処理済みかどうか
+    bool m_isEnd;
+
+private:
+};
+
