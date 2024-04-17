@@ -7,8 +7,8 @@ namespace
 	constexpr int kTextDistance = Game::kFontSize * 1.5;
 }
 
-SelectMenuBase::SelectMenuBase():
-m_updateFunc(&SelectMenuBase::NormalUpdate),
+SelectMenu::SelectMenu():
+m_updateFunc(&SelectMenu::NormalUpdate),
 m_selectedPos(0),
 m_selectItems(),
 m_mouseState(),
@@ -19,16 +19,16 @@ m_selectedItemColor(Game::kColorCyan)
 {
 }
 
-SelectMenuBase::~SelectMenuBase()
+SelectMenu::~SelectMenu()
 {
 }
 
-void SelectMenuBase::Init(bool isMouse)
+void SelectMenu::Init(bool isMouse)
 {
-	if (isMouse) m_updateFunc = &SelectMenuBase::CursorUpdate;
+	if (isMouse) m_updateFunc = &SelectMenu::CursorUpdate;
 }
 
-void SelectMenuBase::Update(const InputState& input)
+void SelectMenu::Update(const InputState& input)
 {
 	// マウスカーソル座標取得
 	m_mouseState.x = input.GetMousePosX();
@@ -37,18 +37,18 @@ void SelectMenuBase::Update(const InputState& input)
 	(this->*m_updateFunc)(input);
 }
 
-void SelectMenuBase::Draw()
+void SelectMenu::Draw()
 {
 	DrawMenuText();
 }
 
-void SelectMenuBase::AddSelectItem(std::string itemName)
+void SelectMenu::AddSelectItem(std::string itemName)
 {
 	m_selectItems.push_back(SelectItemState());
 	m_selectItems.back().itemName = itemName;
 }
 
-void SelectMenuBase::DrawMenuText()
+void SelectMenu::DrawMenuText()
 {
 	int drawX = 0, drawY = 0;
 
@@ -70,7 +70,7 @@ void SelectMenuBase::DrawMenuText()
 	DrawFormatString(drawX, drawY - 2, m_selectedItemColor, "%s", drawText.c_str());
 }
 
-void SelectMenuBase::CursorUpdate(const InputState& input)
+void SelectMenu::CursorUpdate(const InputState& input)
 {
 	m_isCursorRanged = false;
 
@@ -92,7 +92,7 @@ void SelectMenuBase::CursorUpdate(const InputState& input)
 	}
 }
 
-void SelectMenuBase::NormalUpdate(const InputState& input)
+void SelectMenu::NormalUpdate(const InputState& input)
 {
 	int selectItemMax = static_cast<int>(m_selectItems.size() - 1);
 	if (input.IsTriggered(InputType::up))

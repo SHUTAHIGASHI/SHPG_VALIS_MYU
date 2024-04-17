@@ -18,8 +18,8 @@ namespace Game
 	// ウィンドウ名
 	const char* const kTitleText = "ミューママ誕生日おめっとう！！";
 	// ウィンドウサイズ
-	constexpr int kScreenWidth = 1920;
-	constexpr int kScreenHeight = 1080;
+	constexpr int kScreenWidth = 1600;
+	constexpr int kScreenHeight = 900;
 	constexpr int kScreenWidthHalf = kScreenWidth / 2;
 	constexpr int kScreenHeightHalf = kScreenHeight / 2;
 	constexpr int kScreenWidthTriple = kScreenWidth * 3;
@@ -38,6 +38,13 @@ namespace Game
 	constexpr int kColorDepth = 32;
 	// プレイヤーの基本設定
 	constexpr float kChipSize = 640.0f;
+
+	// キャラクターの初期名
+	const char* const kCharaName = "みゅーちゃん";
+
 	// ゲームのステージサイズ
-	constexpr float kGameHeightHalf = Game::kScreenHeightHalf - 100.0f;
+	constexpr float kGameWidthLeft = kScreenWidthHalf - 300.0f;
+	constexpr float kGameWidthRight = kScreenWidthHalf + 300.0f;
+	constexpr float kGameHeightTop = kScreenHeightHalf - 400.0f;
+	constexpr float kGameHeightBottom = kScreenHeightHalf + 400.0f;
 }

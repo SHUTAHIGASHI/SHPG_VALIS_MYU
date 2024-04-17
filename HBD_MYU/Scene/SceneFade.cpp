@@ -5,7 +5,7 @@ namespace
 {
 	// 画像拡大率
 	constexpr double kGraphScaleMin = 0.2;
-	constexpr double kGraphScaleMax = 3.5;
+	constexpr double kGraphScaleMax = 4.0;
 	constexpr double kGraphScaleNum = 0.1;
 }
 
@@ -18,7 +18,7 @@ SceneFade::SceneFade(SceneManager& manager):
 	m_imgScale(kGraphScaleMin)
 {
 	// フェード処理用画像
-	m_hFadeImg = LoadGraph("Data/ImageData/Manju_Chino.png");
+	m_hFadeImg = LoadGraph("Data/ImageData/Mini_RARA.png");
 	GetGraphSize(m_hFadeImg, &m_graphSizeX, &m_graphSizeY);
 }
 

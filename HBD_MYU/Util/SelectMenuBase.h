@@ -4,13 +4,13 @@
 #include <string>
 #include <vector>
 
-class SelectMenuBase
+class SelectMenu
 {
 public:
     // コンストラクタ
-    SelectMenuBase();
+    SelectMenu();
     // デストラクタ
-    virtual ~SelectMenuBase();
+    virtual ~SelectMenu();
     // 初期化
     void Init(bool isMouse);
     // 更新処理
@@ -21,7 +21,7 @@ public:
     void AddSelectItem(std::string itemName);
 
     // 選択中の項目値取得
-    int GetSelectedNum() { return m_selectedPos; }
+    int GetSelectedIndex() { return m_selectedPos; }
 
     // メニュー項目描画位置設定
     void SetItemDrawPos(float x, float y) { m_drawPos.x = x; m_drawPos.y = y; }
@@ -34,7 +34,7 @@ private: // プライベート関数
     void DrawMenuText();
 
     // メンバ関数ポインタ(更新)
-    using m_tUpdateFunc = void (SelectMenuBase::*) (const InputState& input);
+    using m_tUpdateFunc = void (SelectMenu::*) (const InputState& input);
     m_tUpdateFunc m_updateFunc = nullptr;
     // カーソル更新処理
     void CursorUpdate(const InputState& input);

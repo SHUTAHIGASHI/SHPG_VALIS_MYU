@@ -4,7 +4,7 @@
 #include "GameDataManager.h"
 #include "Player.h"
 #include "ScenePause.h"
-#include "SceneAction.h"
+#include "ActionMenu.h"
 
 namespace
 {
@@ -15,7 +15,8 @@ SceneMain::SceneMain(SceneManager& manager):
 	Scene(manager),
 	m_updateFunc(&SceneMain::NormalUpdate),
 	m_drawFunc(&SceneMain::NormalDraw),
-	m_isEnd(false)
+	m_isEnd(false),
+	m_actionMenu(std::make_shared<ActionMenu>())
 {
 }
  
@@ -43,8 +44,14 @@ void SceneMain::Draw()
 
 void SceneMain::NormalUpdate(const InputState& input)
 {
+	m_actionMenu->Update(input);
 }
 
 void SceneMain::NormalDraw()
 {
+	DrawBox(Game::kGameWidthLeft, Game::kGameHeightTop, Game::kGameWidthRight, Game::kGameHeightBottom, Game::kColorWhite, false);
+
+	DrawFormatString(Game::kGameWidthLeft + 10, Game::kGameHeightTop + 10, Game::kColorWhite, "%d", static_cast<int>(m_actionMenu->GetMyuState()));
+
+	m_actionMenu->Draw();
 }

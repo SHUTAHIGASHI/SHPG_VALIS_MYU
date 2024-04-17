@@ -1,14 +1,8 @@
 #pragma once
 #include <unordered_map>
 #include <string>
-
-enum class GameMode
-{
-	empty,
-	QUESTIONLIMIT,
-	TIMELIMIT,
-	ALLCHALLENGE
-};
+#include <DxLib.h>
+#include "Myu.h"
 
 /// <summary>
 /// SEの管理を行うシングルトンクラス
@@ -29,28 +23,25 @@ public:
 		return instance;
 	}
 
-	void SetGameMode(GameMode mode) { m_gameMode = mode; }
-	void SetGameScore(int score, int qNum) { m_gameScore = score , m_questionNum = qNum; }
-	void SetGameTime(int time) { m_attackTime = time; }
-
-	GameMode GetGameMode() { return m_gameMode; }
-	int GetGameScore() { return m_gameScore; }
-	int GetQuestionNum() { return m_questionNum; }
-	int GetGameTime() { return m_attackTime; }
 private:
+	// キャラクターデータの保存
+	void SaveCharacterData(class Myu charaData);
+	// キャラクターデータの読み込み
+	void LoadCharacterData();
+
+	// 時間データの保存
+	void SaveDateData();
+	// 時間データの読み込み
+	void LoadDateData();
+
 	// シングルトンパターンなのでコンストラクタはprivateに置く
 	GameDataManager();
 	// コピーも代入も禁止する
-	GameDataManager(const GameDataManager&) = delete;			// コピーコンストラクタ
+	GameDataManager(const GameDataManager&) = delete;		// コピーコンストラクタ
 	void operator = (const GameDataManager&) = delete;		// 代入も禁止
 
 private:
-	// ゲームモード
-	GameMode m_gameMode;
-	// スコア
-	int m_gameScore;
-	// 問題数
-	int m_questionNum;
-	// ゲーム時間
-	int m_attackTime;
+	// 時間管理
+	DATEDATA m_lastDate;
+	DATEDATA m_nowDate;
 };

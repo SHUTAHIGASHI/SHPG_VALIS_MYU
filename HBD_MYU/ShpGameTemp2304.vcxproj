@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ActionMenu.cpp" />
     <ClCompile Include="Myu.cpp" />
-    <ClCompile Include="SceneAction.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneDebug.cpp" />
@@ -31,6 +31,7 @@
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneOption.cpp" />
     <ClCompile Include="Scene\ScenePause.cpp" />
+    <ClCompile Include="UiManager.cpp" />
     <ClCompile Include="Util\GameDataManager.cpp" />
     <ClCompile Include="Util\InputState.cpp" />
     <ClCompile Include="Util\Load.cpp" />
@@ -40,9 +41,9 @@
     <ClCompile Include="Util\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionMenu.h" />
     <ClInclude Include="Myu.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SceneAction.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneDebug.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneOption.h" />
     <ClInclude Include="Scene\ScenePause.h" />
+    <ClInclude Include="UiManager.h" />
     <ClInclude Include="Util\Game.h" />
     <ClInclude Include="Util\GameDataManager.h" />
     <ClInclude Include="Util\InputState.h" />

@@ -2,12 +2,31 @@
 
 GameDataManager::~GameDataManager()
 {
+	// 時間データの保存
+	SaveDateData();
+}
+
+void GameDataManager::SaveCharacterData(class Myu charaData)
+{
+	// キャラクターデータの保存
+}
+
+void GameDataManager::LoadCharacterData()
+{
+}
+
+void GameDataManager::SaveDateData()
+{
+}
+
+void GameDataManager::LoadDateData()
+{
 }
 
 GameDataManager::GameDataManager():
-	m_gameMode(GameMode::TIMELIMIT),
-	m_gameScore(0),
-	m_questionNum(0),
-	m_attackTime(0)
+	m_lastDate(),
+	m_nowDate()
 {
+	// 時間データの読み込み
+	LoadDateData();
 }

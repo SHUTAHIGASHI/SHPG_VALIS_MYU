@@ -5,7 +5,6 @@
 #include "SceneTitle.h"
 #include "ScenePause.h"
 #include "SceneCredit.h"
-#include "SceneAction.h"
 
 namespace
 {
@@ -61,7 +60,6 @@ void SceneDebug::Update(const InputState& input)
 		}
 		else if (m_selectedPos == 4)
 		{
-			m_Manager.PushScene(new SceneAction(m_Manager));
 		}
 		else
 		{

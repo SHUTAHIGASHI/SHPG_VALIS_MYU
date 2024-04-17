@@ -1,7 +1,8 @@
 #pragma once
 #include "Scene.h"
-#include <memory>
 #include "GameDataManager.h"
+#include <memory>
+#include <string>
 
 class SceneMain :
     public Scene
@@ -33,5 +34,7 @@ private:
     bool m_isEnd;
 
 private:
+    // アクションメニュー
+    std::shared_ptr<class ActionMenu> m_actionMenu;
 };
 

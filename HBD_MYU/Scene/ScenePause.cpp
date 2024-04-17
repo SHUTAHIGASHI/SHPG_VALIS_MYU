@@ -17,7 +17,7 @@ namespace
 	// テキスト間隔
 	constexpr float kTextDistance = Game::kFontSize + 20;
 	// 項目描画位置
-	constexpr float kTextDrawPosY = Game::kGameHeightHalf - Game::kFontSize;
+	constexpr float kTextDrawPosY = Game::kScreenHeightHalf - Game::kFontSize;
 }
 
 ScenePause::ScenePause(SceneManager& manager) :
@@ -64,13 +64,9 @@ void ScenePause::Update(const InputState& input)
 		}
 		else if (m_selectedPos == 1)
 		{
-			m_Manager.ChangeScene(new SceneMain(m_Manager));
-		}
-		else if (m_selectedPos == 2)
-		{
 			m_Manager.PushScene(new SceneOption(m_Manager));
 		}
-		else if (m_selectedPos == 3)
+		else if (m_selectedPos == 2)
 		{
 			m_Manager.ChangeScene(new SceneTitle(m_Manager));
 		}
@@ -112,7 +108,7 @@ void ScenePause::DrawMenuText()
 {
 	float drawX = 0.0f, drawY = 0.0f;
 	drawX = static_cast<float>(Game::kScreenWidthHalf - (GetDrawFormatStringWidth(kTextPause) / 2));
-	drawY = Game::kGameHeightHalf - 100.0f;
+	drawY = Game::kScreenHeightHalf - 100.0f;
 	DrawStringF(drawX, drawY, kTextPause, 0xffffff);
 
 	for (int i = 0; i <= kSelectItemNum; i++)
