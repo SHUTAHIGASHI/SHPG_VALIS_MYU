@@ -12,6 +12,15 @@ namespace
 		"ねむる",
 		"がいしゅつ",
 	};
+
+	// お出かけ時のキャラ名
+	const char* const kOutingCharaName[] = {
+		"チノ",
+		"ネフィ",
+		"ニナ",
+		"ララ",
+		"ヴィッテ",
+	};
 }
 
 Action::Action():
