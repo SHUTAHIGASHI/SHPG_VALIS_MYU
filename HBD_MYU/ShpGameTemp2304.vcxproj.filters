@@ -81,17 +81,26 @@
     <ClCompile Include="Scene\ScenePause.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="SceneTitle.cpp">
+    <ClCompile Include="Scene\SceneTitle.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Myu.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="GameScene\Action.cpp">
+      <Filter>ソース ファイル\GameScene</Filter>
     </ClCompile>
-    <ClCompile Include="ActionMenu.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="GameScene\CharaDraw.cpp">
+      <Filter>ソース ファイル\GameScene</Filter>
     </ClCompile>
-    <ClCompile Include="UiManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="GameScene\ItemBase.cpp">
+      <Filter>ソース ファイル\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene\ItemManager.cpp">
+      <Filter>ソース ファイル\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene\Myu.cpp">
+      <Filter>ソース ファイル\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene\UiManager.cpp">
+      <Filter>ソース ファイル\GameScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,17 +155,26 @@
     <ClInclude Include="Scene\ScenePause.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="SceneTitle.h">
+    <ClInclude Include="Scene\SceneTitle.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Myu.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="GameScene\UiManager.h">
+      <Filter>ヘッダー ファイル\GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="ActionMenu.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="GameScene\Myu.h">
+      <Filter>ヘッダー ファイル\GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="UiManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="GameScene\ItemManager.h">
+      <Filter>ヘッダー ファイル\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene\ItemBase.h">
+      <Filter>ヘッダー ファイル\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene\CharaDraw.h">
+      <Filter>ヘッダー ファイル\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene\Action.h">
+      <Filter>ヘッダー ファイル\GameScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

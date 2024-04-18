@@ -4,7 +4,8 @@
 #include "GameDataManager.h"
 #include "Player.h"
 #include "ScenePause.h"
-#include "ActionMenu.h"
+#include "Action.h"
+#include "CharaDraw.h"
 
 namespace
 {
@@ -16,10 +17,14 @@ SceneMain::SceneMain(SceneManager& manager):
 	m_updateFunc(&SceneMain::NormalUpdate),
 	m_drawFunc(&SceneMain::NormalDraw),
 	m_isEnd(false),
-	m_actionMenu(std::make_shared<ActionMenu>())
+	m_actionMenu(std::make_shared<Action>()),
+	m_charaDraw(std::make_shared<CharaDraw>())
 {
+	// キャラ描画設定
+	m_charaDraw->SetImage(Game::kCharaFileName);
+	m_charaDraw->SetPos(Game::kScreenWidthHalf, Game::kScreenHeightHalf);
 }
- 
+
 SceneMain::~SceneMain()
 {
 	// ゲームポイント保存
@@ -54,4 +59,5 @@ void SceneMain::NormalDraw()
 	DrawFormatString(Game::kGameWidthLeft + 10, Game::kGameHeightTop + 10, Game::kColorWhite, "%d", static_cast<int>(m_actionMenu->GetMyuState()));
 
 	m_actionMenu->Draw();
+	m_charaDraw->Draw();
 }

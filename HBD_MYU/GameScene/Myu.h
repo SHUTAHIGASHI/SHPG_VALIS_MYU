@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "Game.h"
 
 enum class actionState
@@ -7,7 +8,9 @@ enum class actionState
 	Idle,
 	Eat,
 	Sleep,
-	Play
+	Play,
+	Outing,
+	Max
 };
 
 class Myu
@@ -17,26 +20,18 @@ private:
 	{
 		std::string name = "みゅーちゃん";
 		actionState action = actionState::Idle;
-		int exp = 0;
 		int level = 1;
-		int hunger = 0;
-		int happy = 0;
-		int sleep = 0;
+		double exp = 0.0;
+		double hunger = 0.0;
+		double happy = 0.0;
+		double sleep = 0.0;
 	};
 
 public:
 	// コンストラクタ
-	Myu():
-		m_updateFunc(&Myu::UpdateIdle),
-		m_state()
-	{
-		state myu;
-	}
+	Myu();
 	// デストラクタ
-	~Myu()
-	{
-
-	}
+	~Myu();
 
 	// 初期化
 	void Init();
@@ -60,9 +55,10 @@ private:
 	void UpdateEat();
 	void UpdateSleep();
 	void UpdatePlay();
+	void UpdateOuting();
 
 private:
-	// ステータス
+	// ステータス管理
 	state m_state;
 };
 

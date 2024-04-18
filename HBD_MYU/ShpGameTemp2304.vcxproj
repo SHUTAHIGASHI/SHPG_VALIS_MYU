@@ -19,9 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ActionMenu.cpp" />
-    <ClCompile Include="Myu.cpp" />
-    <ClCompile Include="SceneTitle.cpp" />
+    <ClCompile Include="GameScene\Action.cpp" />
+    <ClCompile Include="GameScene\CharaDraw.cpp" />
+    <ClCompile Include="GameScene\ItemBase.cpp" />
+    <ClCompile Include="GameScene\ItemManager.cpp" />
+    <ClCompile Include="GameScene\Myu.cpp" />
+    <ClCompile Include="GameScene\UiManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneDebug.cpp" />
     <ClCompile Include="Scene\SceneFade.cpp" />
@@ -31,7 +34,7 @@
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneOption.cpp" />
     <ClCompile Include="Scene\ScenePause.cpp" />
-    <ClCompile Include="UiManager.cpp" />
+    <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="Util\GameDataManager.cpp" />
     <ClCompile Include="Util\InputState.cpp" />
     <ClCompile Include="Util\Load.cpp" />
@@ -41,10 +44,13 @@
     <ClCompile Include="Util\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActionMenu.h" />
-    <ClInclude Include="Myu.h" />
+    <ClInclude Include="GameScene\Action.h" />
+    <ClInclude Include="GameScene\CharaDraw.h" />
+    <ClInclude Include="GameScene\ItemBase.h" />
+    <ClInclude Include="GameScene\ItemManager.h" />
+    <ClInclude Include="GameScene\Myu.h" />
+    <ClInclude Include="GameScene\UiManager.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneDebug.h" />
     <ClInclude Include="Scene\SceneFade.h" />
@@ -54,7 +60,7 @@
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneOption.h" />
     <ClInclude Include="Scene\ScenePause.h" />
-    <ClInclude Include="UiManager.h" />
+    <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="Util\Game.h" />
     <ClInclude Include="Util\GameDataManager.h" />
     <ClInclude Include="Util\InputState.h" />

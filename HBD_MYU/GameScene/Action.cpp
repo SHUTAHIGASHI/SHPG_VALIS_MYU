@@ -1,6 +1,7 @@
-#include "ActionMenu.h"
+#include "Action.h"
 #include "Game.h"
 #include "SelectMenuBase.h"
+#include "ItemManager.h"
 
 namespace
 {
@@ -9,21 +10,23 @@ namespace
 		"ごはん",
 		"あそぶ",
 		"ねむる",
+		"がいしゅつ",
 	};
 }
 
-ActionMenu::ActionMenu():
+Action::Action():
 	m_pMyu(std::make_shared<Myu>()),
+	m_pItem(std::make_shared<ItemManager>()),
 	m_pSelectMenu(std::make_shared<SelectMenu>())
 {
 	Init();
 }
 
-ActionMenu::~ActionMenu()
+Action::~Action()
 {
 }
 
-void ActionMenu::Init()
+void Action::Init()
 {
 	m_pSelectMenu->Init(true);
 	for(auto& item : kMenuItems)
@@ -31,9 +34,11 @@ void ActionMenu::Init()
 		m_pSelectMenu->AddSelectItem(item);
 	}
 	m_pSelectMenu->SetItemDrawPos(Game::kScreenWidthHalf / 3, 100.0f);
+
+	m_pItem->Init();
 }
 
-void ActionMenu::Update(const InputState& input)
+void Action::Update(const InputState& input)
 {
 	m_pMyu->Update();
 	m_pSelectMenu->Update(input);
@@ -41,38 +46,55 @@ void ActionMenu::Update(const InputState& input)
 	{
 		OnSelectItem(m_pSelectMenu->GetSelectedIndex());
 	}
+
+	std::shared_ptr<ItemBase> testItem;
+	if (input.IsTriggered(InputType::attack))
+	{
+		testItem = m_pItem->GetRandomItem(ItemType::Food);
+	}
+
+	if(testItem != nullptr)
+	{
+		printfDx("Item: %s\n", testItem->GetName().c_str());
+	}
 }
 
-void ActionMenu::Draw()
+void Action::Draw()
 {
 	// メニューを描画
 	m_pSelectMenu->Draw();
 }
 
-void ActionMenu::OnGiveFood()
+void Action::OnGiveFood()
 {
 	// ごはんをあげる
 	m_pMyu->ChangeState(actionState::Eat);
 }
 
-void ActionMenu::OnPlay()
+void Action::OnPlay()
 {
 	// 遊ぶ
 	m_pMyu->ChangeState(actionState::Play);
 }
 
-void ActionMenu::OnSleep()
+void Action::OnSleep()
 {
 	// 寝る
 	m_pMyu->ChangeState(actionState::Sleep);
 }
 
-actionState ActionMenu::GetMyuState() const
+void Action::OnOuting()
+{
+	// 外出
+	m_pMyu->ChangeState(actionState::Outing);
+}
+
+actionState Action::GetMyuState() const
 {
 	return m_pMyu->GetState().action;
 }
 
-void ActionMenu::OnSelectItem(int index)
+void Action::OnSelectItem(int index)
 {
 	// 選択した項目によって処理を分岐
 	switch (index)

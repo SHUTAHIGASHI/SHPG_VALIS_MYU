@@ -3,9 +3,24 @@
 namespace
 {
 	// ステータス最大値
-	constexpr int kMaxStatus = 1000;
+	constexpr double kMaxStatus = 1000.0;
+	// ステータス変化量
+	constexpr double kExpChange = 10.0;
+	constexpr double kHungerChange = 1.0;
+	constexpr double kSleepChange = 1.0;
+	constexpr double kHappyChange = 1.0;
 	// 経験値最大値
-	constexpr int kMaxExp = 1000;
+	constexpr double kMaxExp = 1000.0;
+}
+
+Myu::Myu():
+	m_updateFunc(&Myu::UpdateIdle),
+	m_state()
+{
+}
+
+Myu::~Myu()
+{
 }
 
 void Myu::Init()
@@ -16,8 +31,11 @@ void Myu::Update()
 {
 	// 更新処理のメンバ関数ポインタ
 	(this->*m_updateFunc)();
+	// レベルアップ処理
+	LevelUp();
 
-	printfDx("hunger:%d sleep:%d happy:%d\n", m_state.hunger, m_state.sleep, m_state.happy);
+	printfDx("hunger:%f sleep:%f happy:%f\n", m_state.hunger, m_state.sleep, m_state.happy);
+	printfDx("level:%d exp:%f\n", m_state.level, m_state.exp);
 }
 
 void Myu::ChangeState(actionState state)
@@ -43,7 +61,7 @@ void Myu::ChangeState(actionState state)
 
 void Myu::LevelUp()
 {
-	if(m_state.exp < kMaxExp * m_state.level)
+	if (m_state.exp > kMaxExp * (m_state.level * 0.5))
 	{
 		m_state.level++;
 		m_state.exp = 0;
@@ -53,9 +71,10 @@ void Myu::LevelUp()
 
 void Myu::UpdateIdle()
 {
-	m_state.hunger+=2;
-	m_state.sleep++;
-	m_state.happy--;
+	m_state.exp++;
+	m_state.hunger += kHungerChange;
+	m_state.sleep += kSleepChange;
+	m_state.happy -= kHappyChange;
 	if (m_state.hunger >= kMaxStatus)
 	{
 		ChangeState(actionState::Eat);
@@ -96,9 +115,13 @@ void Myu::UpdatePlay()
 {
 	m_state.exp++;
 	m_state.happy++;
-	if (m_state.happy <= kMaxStatus)
+	if (m_state.happy > kMaxStatus)
 	{
 		m_state.happy = kMaxStatus;
 		ChangeState(actionState::Idle);
 	}
+}
+
+void Myu::UpdateOuting()
+{
 }

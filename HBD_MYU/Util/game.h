@@ -41,6 +41,8 @@ namespace Game
 
 	// キャラクターの初期名
 	const char* const kCharaName = "みゅーちゃん";
+	// キャラクター画像ファイル
+	const char* const kCharaFileName = "Data/ImageData/Manju_Chino.png";
 
 	// ゲームのステージサイズ
 	constexpr float kGameWidthLeft = kScreenWidthHalf - 300.0f;

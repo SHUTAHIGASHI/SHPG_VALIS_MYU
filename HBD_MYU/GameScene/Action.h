@@ -2,13 +2,13 @@
 #include <memory>
 #include "Myu.h"
 
-class ActionMenu
+class Action
 {
 public:
 	// コンストラクタ
-	ActionMenu();
+	Action();
 	// デストラクタ
-	~ActionMenu();
+	~Action();
 
 	// 初期化
 	void Init();
@@ -23,6 +23,8 @@ public:
 	void OnPlay();
 	// 寝る
 	void OnSleep();
+	// 外出
+	void OnOuting();
 
 	// キャラクター状態取得
 	actionState GetMyuState() const;
@@ -32,8 +34,14 @@ private:
 	void OnSelectItem(int index);
 
 private:
+	// お出かけ時のキャラ名
+	std::vector<std::string> m_outingCharaName;
+
+private:
 	// キャラクター
 	std::shared_ptr<class Myu> m_pMyu;
+	// アイテム
+	std::shared_ptr<class ItemManager> m_pItem;
 	// 選択メニュー
 	std::shared_ptr<class SelectMenu> m_pSelectMenu;
 };
