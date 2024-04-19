@@ -27,7 +27,9 @@ public:
 	void OnOuting();
 
 	// キャラクター状態取得
-	actionState GetMyuState() const;
+	actionState GetActionState() const;
+	// キャラクターステータス取得
+	const state& GetMyuStatus() const;
 
 private:
 	// 項目選択時の処理

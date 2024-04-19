@@ -40,7 +40,7 @@ namespace Game
 	constexpr float kChipSize = 640.0f;
 
 	// キャラクターの初期名
-	const char* const kCharaName = "みゅーちゃん";
+	const char* const kCharaName = "ミュー";
 	// キャラクター画像ファイル
 	const char* const kCharaFileName = "Data/ImageData/Manju_Chino.png";
 

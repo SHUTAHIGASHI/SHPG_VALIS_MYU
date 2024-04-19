@@ -13,20 +13,19 @@ enum class actionState
 	Max
 };
 
+struct state
+{
+	std::string name = "ミュー";
+	actionState action = actionState::Idle;
+	int level = 1;
+	double exp = 0.0;
+	double hunger = 0.0;
+	double happy = 0.0;
+	double sleep = 0.0;
+};
+
 class Myu
 {
-private:
-	struct state
-	{
-		std::string name = "みゅーちゃん";
-		actionState action = actionState::Idle;
-		int level = 1;
-		double exp = 0.0;
-		double hunger = 0.0;
-		double happy = 0.0;
-		double sleep = 0.0;
-	};
-
 public:
 	// コンストラクタ
 	Myu();
@@ -41,7 +40,7 @@ public:
 	void ChangeState(actionState state);
 
 	// 現在のステータス取得
-	state GetState() const { return m_state; }
+	state GetStatus() const { return m_state; }
 
 private:
 	// レベルアップ処理
@@ -60,5 +59,7 @@ private:
 private:
 	// ステータス管理
 	state m_state;
+	// 毎フレームカウント
+	int m_countFrame;
 };
 

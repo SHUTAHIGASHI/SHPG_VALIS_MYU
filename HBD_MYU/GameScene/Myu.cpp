@@ -6,16 +6,22 @@ namespace
 	constexpr double kMaxStatus = 1000.0;
 	// ステータス変化量
 	constexpr double kExpChange = 10.0;
-	constexpr double kHungerChange = 1.0;
-	constexpr double kSleepChange = 1.0;
-	constexpr double kHappyChange = 1.0;
+	constexpr double kHungerChange = 0.5;
+	constexpr double kSleepChange = 0.5;
+	constexpr double kHappyChange = 0.5;
+	// ステータス初期値
+	constexpr int kInitLevel = 1;
+	constexpr double kInitExp = 0.0;
+	constexpr double kInitHunger = 0.0;
+	constexpr double kInitSleep = 0.0;
+	constexpr double kInitHappy = kMaxStatus / 2;
 	// 経験値最大値
 	constexpr double kMaxExp = 1000.0;
 }
 
 Myu::Myu():
 	m_updateFunc(&Myu::UpdateIdle),
-	m_state()
+	m_countFrame(0)
 {
 }
 
@@ -25,17 +31,25 @@ Myu::~Myu()
 
 void Myu::Init()
 {
+	// ステータス初期化
+	m_state.name = Game::kCharaName;
+	m_state.action = actionState::Idle;
+	m_state.level = kInitLevel;
+	m_state.exp = kInitExp;
+	m_state.hunger = kInitHunger;
+	m_state.sleep = kInitSleep;
+	m_state.happy = kInitHappy;
 }
 
 void Myu::Update()
 {
+	// フレームカウント
+	m_countFrame++;
+
 	// 更新処理のメンバ関数ポインタ
 	(this->*m_updateFunc)();
 	// レベルアップ処理
 	LevelUp();
-
-	printfDx("hunger:%f sleep:%f happy:%f\n", m_state.hunger, m_state.sleep, m_state.happy);
-	printfDx("level:%d exp:%f\n", m_state.level, m_state.exp);
 }
 
 void Myu::ChangeState(actionState state)
@@ -71,19 +85,25 @@ void Myu::LevelUp()
 
 void Myu::UpdateIdle()
 {
+	// ステータス変化
 	m_state.exp++;
-	m_state.hunger += kHungerChange;
-	m_state.sleep += kSleepChange;
-	m_state.happy -= kHappyChange;
-	if (m_state.hunger >= kMaxStatus)
+	if(m_countFrame % 30 == 0)
+	{
+		m_state.hunger += kHungerChange;
+		m_state.sleep += kSleepChange;
+		m_state.happy -= kHappyChange;
+		m_countFrame = 0;
+	}
+
+	if (m_state.hunger > kMaxStatus)
 	{
 		ChangeState(actionState::Eat);
 	}
-	else if (m_state.sleep >= kMaxStatus)
+	else if (m_state.sleep > kMaxStatus)
 	{
 		ChangeState(actionState::Sleep);
 	}
-	else if (m_state.happy <= 0)
+	else if (m_state.happy < 0.0)
 	{
 		ChangeState(actionState::Play);
 	}

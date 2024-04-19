@@ -35,8 +35,10 @@ private:
 
 private:
     // アクションメニュー
-    std::shared_ptr<class Action> m_actionMenu;
+    std::shared_ptr<class Action> m_pAction;
     // キャラクター描画
-    std::shared_ptr<class CharaDraw> m_charaDraw;
+    std::shared_ptr<class CharaDraw> m_pCharaDraw;
+    // UI
+    std::shared_ptr<class UiManager> m_pUiManager;
 };
 

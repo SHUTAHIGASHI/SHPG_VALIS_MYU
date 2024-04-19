@@ -42,8 +42,11 @@ void Action::Init()
 	{
 		m_pSelectMenu->AddSelectItem(item);
 	}
-	m_pSelectMenu->SetItemDrawPos(Game::kScreenWidthHalf / 3, 100.0f);
+	m_pSelectMenu->SetItemDrawPos(Game::kScreenWidthHalf / 3, Game::kScreenHeightHalf);
 
+	// キャラクター初期化
+	m_pMyu->Init();
+	// アイテム初期化
 	m_pItem->Init();
 }
 
@@ -98,9 +101,14 @@ void Action::OnOuting()
 	m_pMyu->ChangeState(actionState::Outing);
 }
 
-actionState Action::GetMyuState() const
+actionState Action::GetActionState() const
 {
-	return m_pMyu->GetState().action;
+	return m_pMyu->GetStatus().action;
+}
+
+const state& Action::GetMyuStatus() const
+{
+	return m_pMyu->GetStatus();
 }
 
 void Action::OnSelectItem(int index)
