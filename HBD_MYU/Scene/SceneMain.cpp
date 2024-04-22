@@ -22,6 +22,8 @@ SceneMain::SceneMain(SceneManager& manager):
 	m_pCharaDraw(std::make_shared<CharaDraw>()),
 	m_pUiManager(std::make_shared<UiManager>())
 {
+	// アクションマネージャー設定
+	m_pAction->SetUiManager(m_pUiManager.get());
 	// キャラ描画設定
 	m_pCharaDraw->SetImage(Game::kCharaFileName);
 	m_pCharaDraw->SetPos(Game::kScreenWidthHalf, Game::kScreenHeightHalf);
@@ -46,8 +48,8 @@ void SceneMain::Update(const InputState& input)
 	(this->*m_updateFunc)(input);
 
 	// UI更新
-	m_pUiManager->SetCharacterInfo(m_pAction->GetMyuStatus());
 	m_pUiManager->Update();
+	m_pUiManager->SetCharacterInfo(m_pAction->GetCharaStatus());
 }
 
 void SceneMain::Draw()
@@ -66,8 +68,6 @@ void SceneMain::NormalUpdate(const InputState& input)
 void SceneMain::NormalDraw()
 {
 	DrawBox(Game::kGameWidthLeft, Game::kGameHeightTop, Game::kGameWidthRight, Game::kGameHeightBottom, Game::kColorWhite, false);
-
-	DrawFormatString(Game::kGameWidthLeft + 10, Game::kGameHeightTop + 10, Game::kColorWhite, "%d", static_cast<int>(m_pAction->GetActionState()));
 
 	m_pAction->Draw();
 	m_pCharaDraw->Draw();

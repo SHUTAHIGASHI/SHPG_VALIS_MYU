@@ -59,17 +59,9 @@ void Myu::ChangeState(actionState state)
 	{
 		m_updateFunc = &Myu::UpdateIdle;
 	}
-	else if (state == actionState::Eat)
+	else
 	{
-		m_updateFunc = &Myu::UpdateEat;
-	}
-	else if (state == actionState::Sleep)
-	{
-		m_updateFunc = &Myu::UpdateSleep;
-	}
-	else if (state == actionState::Play)
-	{
-		m_updateFunc = &Myu::UpdatePlay;
+		m_updateFunc = &Myu::UpdateActioning;
 	}
 }
 
@@ -80,6 +72,28 @@ void Myu::LevelUp()
 		m_state.level++;
 		m_state.exp = 0;
 		return;
+	}
+}
+
+void Myu::AddStatus()
+{
+	// 行動パターンごとのステータス変化
+	switch (static_cast<int>(m_state.action))
+	{
+	case 0:
+		break;
+	case 1:
+		m_state.hunger -= kHungerChange;
+		break;
+	case 2:
+		m_state.sleep -= kSleepChange;
+		break;
+	case 3:
+		m_state.happy += kHappyChange;
+		break;
+	case 4:
+		m_state.happy += kHappyChange;
+		break;
 	}
 }
 
@@ -94,54 +108,12 @@ void Myu::UpdateIdle()
 		m_state.happy -= kHappyChange;
 		m_countFrame = 0;
 	}
-
-	if (m_state.hunger > kMaxStatus)
-	{
-		ChangeState(actionState::Eat);
-	}
-	else if (m_state.sleep > kMaxStatus)
-	{
-		ChangeState(actionState::Sleep);
-	}
-	else if (m_state.happy < 0.0)
-	{
-		ChangeState(actionState::Play);
-	}
 }
 
-void Myu::UpdateEat()
+void Myu::UpdateActioning()
 {
-	m_state.exp++;
-	m_state.hunger--;
-	if (m_state.hunger <= 0)
-	{
-		m_state.hunger = 0;
-		ChangeState(actionState::Idle);
-	}
+	// ステータス変化
+	m_state.exp += kExpChange;
+	AddStatus();
 }
 
-void Myu::UpdateSleep()
-{
-	m_state.exp++;
-	m_state.sleep--;
-	if (m_state.sleep <= 0)
-	{
-		m_state.sleep = 0;
-		ChangeState(actionState::Idle);
-	}
-}
-
-void Myu::UpdatePlay()
-{
-	m_state.exp++;
-	m_state.happy++;
-	if (m_state.happy > kMaxStatus)
-	{
-		m_state.happy = kMaxStatus;
-		ChangeState(actionState::Idle);
-	}
-}
-
-void Myu::UpdateOuting()
-{
-}
