@@ -8,7 +8,7 @@ namespace
 	constexpr int kUiDrawPosX = 0;
 	constexpr int kUiDrawPosY = 0;
 	// お出かけ後のテキスト描画時間
-	constexpr int kReturningTextDrawTime = 60;
+	constexpr int kReturningTextDrawTime = 120;
 }
 
 UiManager::UiManager():
@@ -91,15 +91,13 @@ void UiManager::DrawActionState()
 
 void UiManager::DrawReturningText()
 {
-	std::string drawText1 = m_charaState.name + "が帰ってきた！";
-	DrawFormatString(400, 800, 0xffffff, "%s", drawText1.c_str());
 	std::string drawText2 = m_charaState.name + "は";
 	for (auto& name : m_outingCharaName)
 	{
-		drawText2 += name + ",";
+		drawText2 += name + "と";
 	}
-	drawText2 += "と遊んで帰ってきた！";
-	DrawFormatString(400, 840, 0xffffff, "%s", drawText2.c_str());
+	drawText2 += "遊んで帰ってきた！";
+	DrawFormatString(0, 840, 0xffffff, "%s", drawText2.c_str());
 }
 
 void UiManager::OnReturning(std::vector<std::string> charaName)

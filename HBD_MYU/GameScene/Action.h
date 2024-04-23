@@ -36,6 +36,8 @@ public:
 private:
 	// 項目選択時の処理
 	void OnSelectItem(int index);
+	// ランダムでキャラ名を選択
+	void SetRandomCharaName();
 
 	// メンバ関数ポインタ(更新)
 	using m_tUpdateFunc = void (Action::*) ();

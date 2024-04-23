@@ -122,21 +122,7 @@ void Action::OnOuting()
 	// 外出時間設定
 	m_outingTimeCount = GetRand(kOutingTimeMax - kOutingTimeMin) + kOutingTimeMin;
 	// 外出時のキャラ名設定
-	m_outingCharaName.clear();
-	unsigned int nameSize = GetRand((sizeof(kOutingCharaName) / sizeof(char*)) - 1);
-	for (int i = 0; i < nameSize; i++)
-	{
-		unsigned int index = GetRand((sizeof(kOutingCharaName) / sizeof(char*)) - 1);
-		for (auto& name : m_outingCharaName)
-		{
-			if (name == kOutingCharaName[index])
-			{
-				index = GetRand((sizeof(kOutingCharaName) / sizeof(char*)) - 1);
-				continue;
-			}
-		}
-		m_outingCharaName.push_back(kOutingCharaName[index]);
-	}
+	SetRandomCharaName();
 }
 
 const state Action::GetCharaStatus() const
@@ -163,6 +149,29 @@ void Action::OnSelectItem(int index)
 		break;
 	default:
 		break;
+	}
+}
+
+void Action::SetRandomCharaName()
+{
+	m_outingCharaName.clear();
+	unsigned int nameSize = GetRand((sizeof(kOutingCharaName) / sizeof(char*)) - 1);
+	if(nameSize <= 0)
+	{
+		nameSize = 1;
+	}
+	for (int i = 0; i < nameSize; i++)
+	{
+		unsigned int index = GetRand((sizeof(kOutingCharaName) / sizeof(char*)) - 1);
+		for (auto& name : m_outingCharaName)
+		{
+			if (name == kOutingCharaName[index])
+			{
+				index = GetRand((sizeof(kOutingCharaName) / sizeof(char*)) - 1);
+				continue;
+			}
+		}
+		m_outingCharaName.push_back(kOutingCharaName[index]);
 	}
 }
 
