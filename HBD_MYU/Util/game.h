@@ -30,23 +30,29 @@ namespace Game
 	constexpr int kColorGray = 0xbbbbbb;
 	constexpr int kColorBlack = 0x0a192c;
 	constexpr int kColorWhite = 0xffffff;
+	// ０のベクトル
+	static VECTOR kVecZero = VGet(0.0f, 0.0f, 0.0f);
 	// フォントファイル
-	const char* const kFontFileName = "Data/fontData/JKG-L_3.ttf";
+	const char* const kFontFileName = "Data/fontData/Mamelon-4-Hi-Regular.otf";
+	// フォント名
+	const char* const kFontName = "マメロン 4 Hi Regular";
 	// フォントサイズ
 	constexpr int kFontSize = 40;
 	// カラーモード
 	constexpr int kColorDepth = 32;
 	// プレイヤーの基本設定
-	constexpr float kChipSize = 640.0f;
+	constexpr float kChipSize = 64.0f;
 
 	// キャラクターの初期名
-	const char* const kCharaName = "ミュー";
+	const char* const kCharaName = "みゅーちゃん";
 	// キャラクター画像ファイル
-	const char* const kCharaFileName = "Data/ImageData/Manju_Chino.png";
+	const char* const kCharaFileName = "Data/ImageData/myuTest.png";
 
 	// ゲームのステージサイズ
-	constexpr float kGameWidthLeft = kScreenWidthHalf - 300.0f;
-	constexpr float kGameWidthRight = kScreenWidthHalf + 300.0f;
-	constexpr float kGameHeightTop = kScreenHeightHalf - 400.0f;
-	constexpr float kGameHeightBottom = kScreenHeightHalf + 400.0f;
+	constexpr float kGameWidthLeft = Game::kChipSize * 8;
+	constexpr float kGameWidthRight = kScreenWidth - Game::kChipSize;
+	constexpr float kGameHeightTop = Game::kChipSize * 4;
+	constexpr float kGameHeightBottom = Game::kChipSize * 13;
+	constexpr float kGameWidth = kGameWidthRight - kGameWidthLeft;
+	constexpr float kGameHeight = kGameHeightBottom - kGameHeightTop;
 }

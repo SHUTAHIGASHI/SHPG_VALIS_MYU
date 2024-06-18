@@ -61,7 +61,7 @@ private:
 	// アイテム
 	std::shared_ptr<class ItemManager> m_pItem;
 	// 選択メニュー
-	std::shared_ptr<class SelectMenu> m_pSelectMenu;
+	std::shared_ptr<class SelectMenuBase> m_pSelectMenu;
 	// UI制御
 	class UiManager* m_pUi;
 };

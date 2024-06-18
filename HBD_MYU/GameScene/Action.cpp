@@ -35,7 +35,7 @@ Action::Action():
 	m_outingTimeCount(0),
 	m_pMyu(std::make_shared<Myu>()),
 	m_pItem(std::make_shared<ItemManager>()),
-	m_pSelectMenu(std::make_shared<SelectMenu>())
+	m_pSelectMenu(std::make_shared<SelectMenuBase>())
 {
 	Init();
 }
@@ -51,7 +51,7 @@ void Action::Init()
 	{
 		m_pSelectMenu->AddSelectItem(item);
 	}
-	m_pSelectMenu->SetItemDrawPos(Game::kScreenWidthHalf / 3, Game::kScreenHeightHalf);
+	m_pSelectMenu->SetDrawPos(Game::kScreenWidthHalf / 3, Game::kScreenHeightHalf);
 
 	// キャラクター初期化
 	m_pMyu->Init();
@@ -69,7 +69,7 @@ void Action::Update(const InputState& input)
 	m_pSelectMenu->Update(input);
 	if (input.IsTriggered(InputType::select))
 	{
-		OnSelectItem(m_pSelectMenu->GetSelectedIndex());
+		OnSelectItem(m_pSelectMenu->GetSelectedNum());
 	}
 
 	std::shared_ptr<ItemBase> testItem;

@@ -13,10 +13,14 @@ public:
     // デストラクタ
     virtual ~SceneMain();
 
+	// 初期化処理
+    void Init();
     // 更新処理
     void Update(const InputState& input);
     // 描画処理
     void Draw();
+	// 終了処理
+    void End();
 
 private:
     // メンバ関数ポインタ(更新)
@@ -32,6 +36,8 @@ private:
 private:
     // 終了処理済みかどうか
     bool m_isEnd;
+    // タイトルロゴハンドル
+	int m_hTitleLogoImg;
 
 private:
     // アクションメニュー
@@ -40,5 +46,7 @@ private:
     std::shared_ptr<class CharaDraw> m_pCharaDraw;
     // UI
     std::shared_ptr<class UiManager> m_pUiManager;
+    // マップ描画
+	std::shared_ptr<class MapDraw> m_pMapDraw;
 };
 

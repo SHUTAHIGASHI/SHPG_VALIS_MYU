@@ -1,16 +1,6 @@
 #pragma once
 #include "Game.h"
 
-// キャラクターの感情の種類
-enum class CharaEmotion
-{
-	Normal,
-	Happy,
-	Sad,
-	Angry,
-	Max
-};
-
 class CharaDraw
 {
 public:
@@ -30,11 +20,14 @@ public:
 	// キャラクターの角度をセット
 	void SetAngle(float angle);
 	// キャラクターの感情をセット
-	void SetEmotion(CharaEmotion emotion);
+	void SetEmotion(emotionState emotion);
 
 private:
 	// 描画画像
 	int m_hImage;
+	// 画像サイズ
+	int m_imageSizeX;
+	int m_imageSizeY;
 	// 描画位置
 	VECTOR m_pos;
 	// 描画サイズ
@@ -42,6 +35,6 @@ private:
 	// 描画角度
 	float m_angle;
 	// キャラクターの感情
-	CharaEmotion m_emotion;
+	emotionState m_emotion;
 };
 

@@ -8,16 +8,16 @@ Load::~Load()
 void Load::AllLoadData()
 {
 	// データをロードする
-	// チノ
-	m_subjects.push_back(SubjectData(SubjectType::CHINO, LoadGraph("Data/ImageData/Subject/chinoUtamita1.png")));
+	m_graphData["bg"] = LoadGraph("Data/ImageData/MainBg_MYU.png");
+	m_graphData["title"] = LoadGraph("Data/ImageData/MYU_GAME_TITLE.png");
 }
 
-void Load::AllDeleteData()
+void Load::DeleteAllData()
 {
 	// データを削除する
-	for (auto& data : m_subjects)
+	for (auto& data : m_graphData)
 	{
-		DeleteGraph(data.subHandle);
+		DeleteGraph(data.second);
 	}
-	m_subjects.clear();
+	m_graphData.clear();
 }

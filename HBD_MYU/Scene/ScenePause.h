@@ -10,8 +10,10 @@ public:
     ScenePause(SceneManager& manager);
     virtual ~ScenePause();
 
+	void Init() {}
     void Update(const InputState& input);
     void Draw();
+	void End(){}
 
 private: // プライベート関数
     std::string GetCurrentText(int textNum);

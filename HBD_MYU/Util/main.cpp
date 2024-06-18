@@ -6,6 +6,10 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	// ウィンドウ選択していなくても実行
+	SetAlwaysRunFlag(true);
+	// ログ無効化
+	SetOutApplicationLogValidFlag(false);
 	// ウィンドウモード設定
 	ChangeWindowMode(Game::kWindowMode);
 	// ウィンドウモードのサイズ変更
@@ -31,7 +35,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		MessageBox(NULL, "フォント読み込み失敗", "", MB_OK);
 	}
 	// 標準フォント設定
-	ChangeFont("JKゴシックL");
+	ChangeFont(Game::kFontName);
 	SetFontSize(Game::kFontSize);
 
 	// カーソル画像読み込み
@@ -104,7 +108,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetMouseDispFlag(true);
 
 	//データ削除
-	Load::GetInstance().AllDeleteData();
+	Load::GetInstance().DeleteAllData();
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 

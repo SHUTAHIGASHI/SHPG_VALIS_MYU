@@ -22,6 +22,8 @@ public:
     void Update(const InputState& input);
     // 描画
     void Draw();
+	// 終了
+	void End() {}
 
 private: // プライベート関数
     // 音量の設定

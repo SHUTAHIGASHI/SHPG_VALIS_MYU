@@ -1,14 +1,13 @@
 #pragma once
 #include <unordered_map>
 #include <string>
-#include "Subject.h"
 
 class Load
 {
 public:
 	~Load();
 	/// <summary>
-	/// SoundManager使用者はGetInstance()を通した参照からしか利用できない
+	/// Load使用者はGetInstance()を通した参照からしか利用できない
 	/// </summary>
 	/// <returns></returns>
 	static Load& GetInstance()
@@ -28,8 +27,8 @@ public:
 	/// <summary>
 	/// 全てのデータを削除する
 	/// </summary>
-	void AllDeleteData();
-	
+	void DeleteAllData();
+
 	/// <summary>
 	/// ハンドルを取得する
 	/// </summary>
@@ -37,19 +36,11 @@ public:
 	/// <returns>ハンドル</returns>
 	int GetHandle(std::string key)
 	{
-		return m_data[key];
-	}
-
-	// 要素データ全て取得
-	std::vector<SubjectData> GetAllData()
-	{
-		return m_subjects;
+		return m_graphData[key];
 	}
 private:
 	//ロードデータをunordered_mapで管理
-	std::unordered_map<std::string, int> m_data;
-
-	std::vector<SubjectData> m_subjects;
+	std::unordered_map<std::string, int> m_graphData;
 
 	// シングルトンパターンなのでコンストラクタはprivateに置く
 	Load() {};

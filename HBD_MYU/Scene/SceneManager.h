@@ -19,6 +19,12 @@ public:
 
 	/// <summary>
 	/// シーンを上に積む
+	/// Updateでは全てのシーンが更新される
+	/// </summary>
+	/// <param name="scene"></param>
+	void PushSceneAllUpdate(Scene* scene);
+	/// <summary>
+	/// シーンを上に積む
 	/// Updateで実行されるのは上につまれたシーンのみ
 	/// </summary>
 	/// <param name="scene"></param>
@@ -70,5 +76,8 @@ private:
 
 	// 処理を終了するか
 	bool m_isEnd = false;
+
+	// 更新処理を全て行うかどうか
+	bool m_isAllUpdate = false;
 };
 

@@ -12,10 +12,14 @@ public:
     // デストラクタ
     virtual ~SceneFade();
 
+	// 初期化
+    void Init() {}
     // 更新
     void Update(const InputState& input);
     // 描画
     void Draw();
+	// 終了
+	void End() {}
 
     // フェード処理の判定を返す //
     bool IsFadeClose(){ return m_isFadeClose; } // 閉じ切ったかどうか

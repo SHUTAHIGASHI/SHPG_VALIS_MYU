@@ -2,10 +2,12 @@
 
 CharaDraw::CharaDraw():
 	m_hImage(-1),
+	m_imageSizeX(0),
+	m_imageSizeY(0),
 	m_pos(VGet(0.0f, 0.0f, 0.0f)),
-	m_size(0.5f),
+	m_size(1.0f),
 	m_angle(0.0f),
-	m_emotion(CharaEmotion::Normal)
+	m_emotion(emotionState::Normal)
 {
 }
 
@@ -17,12 +19,16 @@ CharaDraw::~CharaDraw()
 void CharaDraw::Draw()
 {
 	// ‰æ‘œ‚Ì•`‰æ
+	DrawBox(m_pos.x - m_imageSizeX / 2, m_pos.y - m_imageSizeY / 2,
+		m_pos.x + m_imageSizeX / 2, m_pos.y + m_imageSizeY / 2, 
+		0xffffff, false);
 	DrawRotaGraphF(m_pos.x, m_pos.y, m_size, m_angle, m_hImage, true);
 }
 
 void CharaDraw::SetImage(const char* fileName)
 {
 	m_hImage = LoadGraph(fileName);
+	GetGraphSize(m_hImage, &m_imageSizeX, &m_imageSizeY);
 }
 
 void CharaDraw::SetPos(float x, float y)
@@ -40,7 +46,7 @@ void CharaDraw::SetAngle(float angle)
 	m_angle = angle;
 }
 
-void CharaDraw::SetEmotion(CharaEmotion emotion)
+void CharaDraw::SetEmotion(emotionState emotion)
 {
 	m_emotion = emotion;
 }

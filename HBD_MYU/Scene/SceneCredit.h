@@ -11,10 +11,14 @@ public:
     SceneCredit(SceneManager& manager);
     virtual ~SceneCredit();
 
+	// 初期化
+	void Init() {}
     // 更新
     void Update(const InputState& input);
     // 描画
     void Draw();
+	// 終了
+	void End() {}
 
 private: // プライベート関数
     // テキスト描画

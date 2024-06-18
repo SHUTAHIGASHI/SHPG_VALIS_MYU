@@ -7,10 +7,14 @@
 #include "Action.h"
 #include "CharaDraw.h"
 #include "UiManager.h"
+#include "MapDraw.h"
+#include "Load.h"
 
 namespace
 {
-
+	// タイトルロゴ描画位置
+	constexpr float kLogoDrawPosX = 225.0f;
+	constexpr float kLogoDrawPosY = Game::kScreenHeight - 120.0f;
 }
 
 SceneMain::SceneMain(SceneManager& manager):
@@ -20,7 +24,8 @@ SceneMain::SceneMain(SceneManager& manager):
 	m_isEnd(false),
 	m_pAction(std::make_shared<Action>()),
 	m_pCharaDraw(std::make_shared<CharaDraw>()),
-	m_pUiManager(std::make_shared<UiManager>())
+	m_pUiManager(std::make_shared<UiManager>()),
+	m_pMapDraw(std::make_shared<MapDraw>())
 {
 	// アクションマネージャー設定
 	m_pAction->SetUiManager(m_pUiManager.get());
@@ -29,12 +34,22 @@ SceneMain::SceneMain(SceneManager& manager):
 	m_pCharaDraw->SetPos(Game::kScreenWidthHalf, Game::kScreenHeightHalf);
 	// UI設定
 	m_pUiManager->Init();
+	// マップ描画設定
+	m_pMapDraw->Init();
 }
 
 SceneMain::~SceneMain()
 {
 	// ゲームポイント保存
 	//GameDataManager::GetInstance().SetGameScore(m_correct, m_questionNum);
+
+	// 画像開放
+	m_hTitleLogoImg = -1;
+}
+
+void SceneMain::Init()
+{
+	m_hTitleLogoImg = Load::GetInstance().GetHandle("title");
 }
 
 void SceneMain::Update(const InputState& input)
@@ -54,15 +69,26 @@ void SceneMain::Update(const InputState& input)
 
 void SceneMain::Draw()
 {
+	// マップ描画
+	m_pMapDraw->Draw();
+
 	(this->*m_drawFunc)();
 
 	// UI描画
 	m_pUiManager->Draw();
+
+	// タイトルロゴ描画
+	DrawRotaGraphF(kLogoDrawPosX, kLogoDrawPosY, 0.3, 0.0, m_hTitleLogoImg, true);
+}
+
+void SceneMain::End()
+{
 }
 
 void SceneMain::NormalUpdate(const InputState& input)
 {
 	m_pAction->Update(input);
+	m_pCharaDraw->SetPos(m_pAction->GetCharaStatus().drawPos.x, m_pAction->GetCharaStatus().drawPos.y);
 }
 
 void SceneMain::NormalDraw()

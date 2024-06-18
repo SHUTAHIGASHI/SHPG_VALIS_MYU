@@ -9,8 +9,10 @@ public:
     SceneHowTo(SceneManager& manager);
     virtual ~SceneHowTo();
 
+	void Init() {}
     void Update(const InputState& input);
     void Draw();
+	void End() {}
 
 private:
     // 毎フレームカウント
