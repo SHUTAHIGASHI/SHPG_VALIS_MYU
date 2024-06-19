@@ -52,7 +52,7 @@ enum class actionState
 
 struct charaState
 {
-	std::string name = "É~ÉÖÅ[";
+	std::string name = "Ç›Ç„Å[ÇøÇ·ÇÒ";
 	VECTOR drawPos = VGet(0.0f, 0.0f, 0.0f);
 	emotionState emotion = emotionState::Normal;
 	actionState action = actionState::Idle;

@@ -52,6 +52,8 @@ Myu::Myu():
 
 Myu::~Myu()
 {
+	// ƒf[ƒ^ˆê•Û‘¶
+	GameDataManager::GetInstance().SaveTempData(m_state);
 }
 
 void Myu::Init()
@@ -61,11 +63,7 @@ void Myu::Init()
 	m_state.drawPos = VGet(Game::kGameWidth, Game::kGameHeight, 0.0f);
 	m_state.emotion = emotionState::Normal;
 	m_state.action = actionState::Idle;
-	m_state.level = kInitLevel;
-	m_state.exp = kInitExp;
-	m_state.hunger = kInitHunger;
-	m_state.sleep = kInitSleep;
-	m_state.happy = kInitHappy;
+	GameDataManager::GetInstance().SetData(m_state);
 	// ˆÚ“®æ‰Šú‰»
 	m_nextPos = m_state.drawPos;
 }
