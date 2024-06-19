@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 class UiBar
 {
@@ -19,6 +20,13 @@ public:
     void SetDrawPos(int x, int y);
 	// バーの色設定
 	void SetColor(int color) { m_color = color; }
+	// バーネーム設定
+	void SetBarName(std::string barName) 
+    { 
+		// バーネームが空文字の場合は描画しない
+        m_barName = barName; 
+		m_isDrawBarName = true;
+    }
 
 private:
     // 描画座標
@@ -34,5 +42,9 @@ private:
     float m_maxNumRate;
 	// バーの色
 	int m_color;
+    // バーネーム
+	std::string m_barName;
+    // バーネーム描画判定
+	bool m_isDrawBarName;
 };
 

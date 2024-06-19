@@ -36,8 +36,6 @@ private:
 private:
     // 終了処理済みかどうか
     bool m_isEnd;
-    // タイトルロゴハンドル
-	int m_hTitleLogoImg;
 
 private:
     // アクションメニュー

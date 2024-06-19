@@ -5,9 +5,8 @@
 namespace
 {
 	// ゲージの座標
-	constexpr int kGaugeW = 100;
-	constexpr int kGaugeH = 15;
-	constexpr int kDrawPosDiff = 100;
+	constexpr int kGaugeW = 150;
+	constexpr int kGaugeH = 30;
 }
 
 UiBar::UiBar(int maxNum) :
@@ -17,7 +16,9 @@ UiBar::UiBar(int maxNum) :
 	m_maxNum(0),
 	m_currentNumRate(0.0f),
 	m_maxNumRate(0.0f),
-	m_color(0)
+	m_color(0),
+	m_barName(),
+	m_isDrawBarName(false)
 {
 	// 最大HP
 	m_maxNum = maxNum;
@@ -48,13 +49,21 @@ void UiBar::Draw()
 {
 	// HPバーの描画
 	int drawX = m_drawX - static_cast<int>(m_maxNumRate / 2);
-	int drawY = m_drawY - kDrawPosDiff;
+	int drawY = m_drawY;
 	int drawW = drawX + static_cast<int>(m_currentNumRate);
 	int drawH = drawY + kGaugeH;
 	DrawBox(drawX, drawY, drawW, drawH, m_color, true);
 	// 枠の描画
 	drawW = drawX + static_cast<int>(m_maxNumRate);
 	DrawBox(drawX, drawY, drawW, drawH, 0xffffff, false);
+	// バーネームの描画
+	auto textLength = GetDrawFormatStringWidth(m_barName.c_str());
+	drawX = (m_drawX - kGaugeW / 2) - 6 - textLength;
+	drawY = (m_drawY - 20) + kGaugeH / 2;
+	if (m_isDrawBarName)
+	{
+		DrawString(drawX, drawY, m_barName.c_str(), 0xffffff);
+	}
 }
 
 void UiBar::SetDrawPos(int x, int y)

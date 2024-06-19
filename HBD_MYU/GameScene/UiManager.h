@@ -44,5 +44,6 @@ private:
 private:
 	// UIバーのマップ
 	std::map<std::string, class UiBar*> m_uiBars;
+
 };
 

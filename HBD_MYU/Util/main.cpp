@@ -79,6 +79,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 現在のシーンの更新
 		scene.Update(input);
 
+		// 背景描画
+		DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, Load::GetInstance().GetHandle("gameBg"), true);
+
 		// 現在のシーンの描画
 		scene.Draw();
 

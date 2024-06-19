@@ -6,9 +6,12 @@ namespace
 	// UIテキスト描画間隔
 	constexpr int kDrawInterval = 40;
 	// UI描画位置
-	constexpr float kUiDrawPosX = 120.0f;
+	constexpr float kUiDrawPosX = Game::kUiWidthRight / 2;
 	constexpr float kUiDrawPosY = 100.0f;
-	constexpr float kUiDrawPosInterval = 40.0f;
+	// ステータスバー描画位置
+	constexpr float kStatusPosInterval = 50.0f;
+	constexpr float kStatusDrawPosX = Game::kUiWidthRight / 2 + 50.0f ;
+	constexpr float kStatusDrawPosY = 220.0f;
 
 	// お出かけ後のテキスト描画時間
 	constexpr int kReturningTextDrawTime = 120;
@@ -23,12 +26,16 @@ UiManager::UiManager():
 {
 	m_uiBars["exp"] = new UiBar(1000);
 	m_uiBars["exp"]->SetColor(0x00ff00);
+	m_uiBars["exp"]->SetBarName("経験値");
 	m_uiBars["hunger"] = new UiBar(1000);
 	m_uiBars["hunger"]->SetColor(0xffff00);
+	m_uiBars["hunger"]->SetBarName("空腹");
 	m_uiBars["happy"] = new UiBar(1000);
 	m_uiBars["happy"]->SetColor(0x00ffff);
+	m_uiBars["happy"]->SetBarName("幸福");
 	m_uiBars["sleep"] = new UiBar(1000);
 	m_uiBars["sleep"]->SetColor(0xff0000);
+	m_uiBars["sleep"]->SetBarName("眠気");
 }
 
 UiManager::~UiManager()
@@ -47,6 +54,7 @@ void UiManager::Update()
 	}
 	
 	// 数値更新
+	m_uiBars["exp"]->ChangeMaxNum(m_charaState.expMax);
 	m_uiBars["exp"]->UpdateUIData(m_charaState.exp);
 	m_uiBars["hunger"]->UpdateUIData(m_charaState.hunger);
 	m_uiBars["happy"]->UpdateUIData(m_charaState.happy);
@@ -56,7 +64,7 @@ void UiManager::Update()
 	int i = 0;
 	for (auto uiBar : m_uiBars)
 	{
-		uiBar.second->SetDrawPos(kUiDrawPosX, kUiDrawPosY + (kUiDrawPosInterval * i));
+		uiBar.second->SetDrawPos(kStatusDrawPosX, kStatusDrawPosY + (kStatusPosInterval * i));
 		uiBar.second->Update();
 		i++;
 	}
@@ -64,20 +72,30 @@ void UiManager::Update()
 
 void UiManager::Draw()
 {
+	// UIテキスト描画
 	std::vector<std::string> uiTexts = {
 		"名前：" + m_charaState.name,
-		"レベル：" + std::to_string(m_charaState.level),
-		"経験値：" + std::to_string(m_charaState.exp),
-		"空腹：" + std::to_string(m_charaState.hunger),
-		"幸福：" + std::to_string(m_charaState.happy),
-		"眠気：" + std::to_string(m_charaState.sleep)
+		"レベル：" + std::to_string(m_charaState.level)
 	};
+	int drawY = 0;
+	// テキスト描画
+	for (auto& text : uiTexts)
+	{
+		auto textLength = GetDrawFormatStringWidth("%s", text.c_str());
+		DrawFormatString(kUiDrawPosX - (textLength / 2), kUiDrawPosY + drawY, 0xffffff, "%s", text.c_str());
+		drawY += kDrawInterval;
+	}
 
 	// バー描画
 	for (auto uiBar : m_uiBars)
 	{
 		uiBar.second->Draw();
 	}
+
+	// 背景描画
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+	DrawBox(Game::kUiWidthLeft, Game::kUiHeightBottom - 200.0f, Game::kUiWidthRight, Game::kUiHeightBottom, 0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	// 現在の行動状態描画
 	DrawActionState();
@@ -86,14 +104,7 @@ void UiManager::Draw()
 	if (m_returningTextCount > 0)
 	{
 		DrawReturningText();
-	}
-
-	/*int drawY = 0;
-	for(auto& text : uiTexts)
-	{
-		DrawFormatString(kUiDrawPosX, kUiDrawPosY + drawY, 0xffffff, "%s", text.c_str());
-		drawY += kDrawInterval;
-	}*/
+	}	
 }
 
 void UiManager::DrawActionState()

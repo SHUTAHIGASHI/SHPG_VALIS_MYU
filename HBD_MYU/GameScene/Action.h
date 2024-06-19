@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include <memory>
+#include <map>
 #include "Myu.h"
 
 class Action
@@ -25,10 +26,10 @@ public:
 	void OnIdle();
 	// 餌をあげる
 	void OnGiveFood();
-	// 遊んであげる
-	void OnPlay();
 	// 寝る
 	void OnSleep();
+	// 遊んであげる
+	void OnLesson();
 	// 外出
 	void OnOuting();
 	// キャラクターステータス取得
@@ -39,28 +40,32 @@ private:
 	void OnSelectItem(int index);
 	// ランダムでキャラ名を選択
 	void SetRandomCharaName();
+	// カーソルの範囲内チェック
+	bool CheckCursorRange();
 
 	// メンバ関数ポインタ(更新)
-	using m_tUpdateFunc = void (Action::*) ();
+	using m_tUpdateFunc = void (Action::*) (const InputState& input);
 	m_tUpdateFunc m_updateFunc = nullptr;
 	// 状態ごとの更新
-	void UpdateIdle();
-	void UpdateEat();
-	void UpdateSleep();
-	void UpdatePlay();
-	void UpdateOuting();
+	void UpdateIdle(const InputState& input);
+	void UpdateOuting(const InputState& input);
+
+	// 各行動時の処理管理マップ
+	using m_tSelectFunc = void (Action::*) ();
+	std::map<std::string, m_tSelectFunc> m_selectFuncMap;
 
 private:
 	// お出かけ時のキャラ名
 	std::list<std::string> m_outingCharaName;
 	// お出かけ時間カウント
 	int m_outingTimeCount;
+	// カーソル座標
+	float m_cursorPosX;
+	float m_cursorPosY;
 
 private:
 	// キャラクター
 	std::shared_ptr<class Myu> m_pMyu;
-	// アイテム
-	std::shared_ptr<class ItemManager> m_pItem;
 	// 選択メニュー
 	std::shared_ptr<class SelectMenuBase> m_pSelectMenu;
 	// UI制御

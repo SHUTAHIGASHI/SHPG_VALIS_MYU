@@ -45,7 +45,7 @@ enum class actionState
 	Idle,
 	Eat,
 	Sleep,
-	Play,
+	Lesson,
 	Outing,
 	Max
 };
@@ -58,6 +58,7 @@ struct charaState
 	actionState action = actionState::Idle;
 	int level = 1;
 	double exp = 0.0;
+	double expMax = 0.0;
 	double hunger = 0.0;
 	double happy = 0.0;
 	double sleep = 0.0;
@@ -78,14 +79,17 @@ public:
 	// 状態遷移
 	void ChangeState(actionState state);
 
+	// マウス戯れ時の処理
+	void OnMousePlaying(float x, float y);
+
 	// 現在のステータス取得
 	const charaState GetStatus() const { return m_state; }
 
 private:
 	// レベルアップ処理
 	void LevelUp();
-	// ステータス最大値管理
-	void StatusMaxCheck();
+	// ステータス限界値管理
+	void StatusLimitCheck();
 	// 部屋内の移動処理
 	void UpdateRoomMove();
 
@@ -104,12 +108,16 @@ private:
 	// 外出中
 	void UpdateOuting();
 
-	// メンバ関数ポインタ(更新)
-	using m_tUpdateIdleFunc = void (Myu::*) ();
-	// 感情ごとの関数ポインタをMAPで管理
-	std::map<emotionState, m_tUpdateIdleFunc> m_updateIdleFuncMap;
-	// 状態ごとの更新
+	// メンバ関数ポインタ(待機時の更新)
+	m_tUpdateFunc m_updateFunc = nullptr;
+	// 待機時の更新
 	void UpdateIdleNormal();
+	void UpdateMousePlaying();
+
+	// 感情ごとの関数ポインタをMAPで管理
+	std::map<emotionState, m_tUpdateFunc> m_updateIdleFuncMap;
+	// 状態ごとの更新
+	void UpdateNormalEmo();
 	//// 幸せ
 	//void UpdateIdleHappy();
 	//// 悲しい
@@ -148,5 +156,9 @@ private:
 	int m_actionEndFrameCount;
 	// 部屋移動のフレームカウント
 	int m_roomMoveFrameCount;
+	// マウス戯れ時のフレームカウント
+	int m_mousePlayingFrameCount;
+	// 部屋の移動速度
+	float m_roomMoveSpeed;
 };
 

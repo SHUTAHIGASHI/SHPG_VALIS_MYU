@@ -8,6 +8,7 @@ Load::~Load()
 void Load::AllLoadData()
 {
 	// データをロードする
+	m_graphData["gameBg"] = LoadGraph("Data/ImageData/Bg_MYU.png");
 	m_graphData["bg"] = LoadGraph("Data/ImageData/MainBg_MYU.png");
 	m_graphData["title"] = LoadGraph("Data/ImageData/MYU_GAME_TITLE.png");
 	m_graphData["cursor"] = LoadGraph("Data/ImageData/Cursor.png");

@@ -13,7 +13,7 @@
 namespace
 {
 	// タイトルロゴ描画位置
-	constexpr float kLogoDrawPosX = 225.0f;
+	constexpr float kLogoDrawPosX = Game::kUiWidthRight / 2;
 	constexpr float kLogoDrawPosY = Game::kScreenHeight - 120.0f;
 }
 
@@ -29,6 +29,18 @@ SceneMain::SceneMain(SceneManager& manager):
 {
 	// アクションマネージャー設定
 	m_pAction->SetUiManager(m_pUiManager.get());
+}
+
+SceneMain::~SceneMain()
+{
+	// ゲームポイント保存
+	//GameDataManager::GetInstance().SetGameScore(m_correct, m_questionNum);
+}
+
+void SceneMain::Init()
+{
+	// ゲームデータ初期化
+	m_pAction->Init();
 	// キャラ描画設定
 	m_pCharaDraw->SetImage(Game::kCharaFileName);
 	m_pCharaDraw->SetPos(Game::kScreenWidthHalf, Game::kScreenHeightHalf);
@@ -36,20 +48,6 @@ SceneMain::SceneMain(SceneManager& manager):
 	m_pUiManager->Init();
 	// マップ描画設定
 	m_pMapDraw->Init();
-}
-
-SceneMain::~SceneMain()
-{
-	// ゲームポイント保存
-	//GameDataManager::GetInstance().SetGameScore(m_correct, m_questionNum);
-
-	// 画像開放
-	m_hTitleLogoImg = -1;
-}
-
-void SceneMain::Init()
-{
-	m_hTitleLogoImg = Load::GetInstance().GetHandle("title");
 }
 
 void SceneMain::Update(const InputState& input)
@@ -76,9 +74,6 @@ void SceneMain::Draw()
 
 	// UI描画
 	m_pUiManager->Draw();
-
-	// タイトルロゴ描画
-	DrawRotaGraphF(kLogoDrawPosX, kLogoDrawPosY, 0.3, 0.0, m_hTitleLogoImg, true);
 }
 
 void SceneMain::End()

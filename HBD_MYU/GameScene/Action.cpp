@@ -1,7 +1,6 @@
 #include "Action.h"
 #include "Game.h"
 #include "SelectMenuBase.h"
-#include "ItemManager.h"
 #include "UiManager.h"
 
 namespace
@@ -9,8 +8,8 @@ namespace
 	// 選択項目名
 	const char* const kMenuItems[] = {
 		"ごはん",
-		"あそぶ",
 		"ねむる",
+		"レッスン",
 		"がいしゅつ",
 	};
 
@@ -33,11 +32,16 @@ namespace
 Action::Action():
 	m_updateFunc(&Action::UpdateIdle),
 	m_outingTimeCount(0),
+	m_cursorPosX(0.0f),
+	m_cursorPosY(0.0f),
 	m_pMyu(std::make_shared<Myu>()),
-	m_pItem(std::make_shared<ItemManager>()),
 	m_pSelectMenu(std::make_shared<SelectMenuBase>())
 {
-	Init();
+	// 各行動時の処理管理マップ
+	m_selectFuncMap["ごはん"] = &Action::OnGiveFood;
+	m_selectFuncMap["ねむる"] = &Action::OnSleep;
+	m_selectFuncMap["レッスン"] = &Action::OnLesson;
+	m_selectFuncMap["がいしゅつ"] = &Action::OnOuting;
 }
 
 Action::~Action()
@@ -51,36 +55,24 @@ void Action::Init()
 	{
 		m_pSelectMenu->AddSelectItem(item);
 	}
-	m_pSelectMenu->SetDrawPos(Game::kScreenWidthHalf / 3, Game::kScreenHeightHalf);
+	m_pSelectMenu->SetDrawPos(Game::kUiWidthRight / 2, Game::kScreenHeightHalf);
 
 	// キャラクター初期化
 	m_pMyu->Init();
-	// アイテム初期化
-	m_pItem->Init();
 }
 
 void Action::Update(const InputState& input)
 {
 	// 更新処理のメンバ関数ポインタ
-	(this->*m_updateFunc)();
+	(this->*m_updateFunc)(input);
 	// キャラクターの更新
 	m_pMyu->Update();
 	// 選択メニューの更新
 	m_pSelectMenu->Update(input);
+	// 選択時の処理
 	if (input.IsTriggered(InputType::select))
 	{
 		OnSelectItem(m_pSelectMenu->GetSelectedNum());
-	}
-
-	std::shared_ptr<ItemBase> testItem;
-	if (input.IsTriggered(InputType::attack))
-	{
-		testItem = m_pItem->GetRandomItem(ItemType::Toys);
-	}
-
-	if(testItem != nullptr)
-	{
-		printfDx("Item: %s\n", testItem->GetName().c_str());
 	}
 }
 
@@ -102,16 +94,16 @@ void Action::OnGiveFood()
 	m_pMyu->ChangeState(actionState::Eat);
 }
 
-void Action::OnPlay()
-{
-	// 遊ぶ
-	m_pMyu->ChangeState(actionState::Play);
-}
-
 void Action::OnSleep()
 {
 	// 寝る
 	m_pMyu->ChangeState(actionState::Sleep);
+}
+
+void Action::OnLesson()
+{
+	// レッスン
+	m_pMyu->ChangeState(actionState::Lesson);
 }
 
 void Action::OnOuting()
@@ -132,29 +124,14 @@ const charaState Action::GetCharaStatus() const
 
 void Action::OnSelectItem(int index)
 {
+	// カーソルが範囲内でない場合は処理しない
 	if (!m_pSelectMenu->IsCursorRanged())
 	{
 		return;
 	}
 
-	// 選択した項目によって処理を分岐
-	switch (index)
-	{
-	case 0:
-		OnGiveFood();
-		break;
-	case 1:
-		OnPlay();
-		break;
-	case 2:
-		OnSleep();
-		break;
-	case 3:
-		OnOuting();
-		break;
-	default:
-		break;
-	}
+	// 選択時の処理
+	(this->*m_selectFuncMap[kMenuItems[index]])();
 }
 
 void Action::SetRandomCharaName()
@@ -180,14 +157,42 @@ void Action::SetRandomCharaName()
 	}
 }
 
-void Action::UpdateIdle()
+bool Action::CheckCursorRange()
 {
+	// カーソルが範囲内かどうか
+	if (m_cursorPosX > Game::kGameWidthLeft &&
+		m_cursorPosX < Game::kGameWidthRight &&
+		m_cursorPosY > Game::kGameHeightTop &&
+		m_cursorPosY < Game::kGameHeightBottom)
+	{
+		// 範囲内
+		return true;
+	}
+	// 範囲外
+	return false;
 }
 
-void Action::UpdateOuting()
+void Action::UpdateIdle(const InputState& input)
+{
+	// カーソル座標更新
+	m_cursorPosX = input.GetMousePosX();
+	m_cursorPosY = input.GetMousePosY();
+
+	// 選択時の処理
+	if (input.IsTriggered(InputType::select))
+	{
+		// カーソルが範囲内でない場合は処理しない
+		if (CheckCursorRange())
+		{
+			// マウスで遊ぶ
+			m_pMyu->OnMousePlaying(m_cursorPosX, m_cursorPosY);
+		}
+	}
+}
+
+void Action::UpdateOuting(const InputState& input)
 {
 	m_outingTimeCount--;
-	printfDx("お出かけ中: %d\n", m_outingTimeCount);
 	if (m_outingTimeCount < 0)
 	{
 		// お出かけ終了

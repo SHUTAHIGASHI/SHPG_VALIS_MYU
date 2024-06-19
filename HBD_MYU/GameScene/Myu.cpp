@@ -24,30 +24,35 @@ namespace
 	constexpr int kActionEndFrame = 60;
 	// 部屋移動フレーム
 	constexpr int kRoomMoveFrame = 120;
-	// 部屋内の移動速度
-	constexpr float kRoomMoveSpeed = 1.0f;
+	// マウス戯れ時のフレーム
+	constexpr int kMousePlayingFrame = 60 * 6;
 
+	// 部屋内の移動速度
+	constexpr float kBaseMoveSpeed = 1.0f;
 	// 経験値最大値
 	constexpr double kMaxExp = 5000.0;
 }
 
-Myu::Myu():
+Myu::Myu() :
 	m_updateFuncMap(),
+	m_updateFunc(&Myu::UpdateIdleNormal),
 	m_updateIdleFuncMap(),
 	m_nextPos(Game::kVecZero),
 	m_state(),
 	m_countFrame(0),
 	m_actionEndFrameCount(0),
-	m_roomMoveFrameCount(kRoomMoveFrame)
+	m_roomMoveFrameCount(kRoomMoveFrame),
+	m_mousePlayingFrameCount(0),
+	m_roomMoveSpeed(kBaseMoveSpeed)
 {
 	// 更新関数マップ
 	m_updateFuncMap[actionState::Idle] = &Myu::UpdateIdle;
 	m_updateFuncMap[actionState::Eat] = &Myu::UpdateEat;
 	m_updateFuncMap[actionState::Sleep] = &Myu::UpdateSleep;
-	m_updateFuncMap[actionState::Play] = &Myu::UpdatePlay;
+	m_updateFuncMap[actionState::Lesson] = &Myu::UpdatePlay;
 	m_updateFuncMap[actionState::Outing] = &Myu::UpdateOuting;
 	// 待機状態の感情ごとの更新関数マップ
-	m_updateIdleFuncMap[emotionState::Normal] = &Myu::UpdateIdleNormal;
+	m_updateIdleFuncMap[emotionState::Normal] = &Myu::UpdateNormalEmo;
 }
 
 Myu::~Myu()
@@ -76,7 +81,7 @@ void Myu::Update()
 	// ステータスごとの更新処理メンバ関数ポインタ
 	(this->*m_updateFuncMap[m_state.action])();
 	// ステータス最大値管理
-	StatusMaxCheck();
+	StatusLimitCheck();
 
 	// ステータス変化
 	m_state.exp += kExpIncrease;
@@ -89,9 +94,29 @@ void Myu::ChangeState(actionState state)
 	m_state.action = state;
 }
 
+void Myu::OnMousePlaying(float x, float y)
+{
+	if (m_mousePlayingFrameCount < 0)
+	{
+		return;
+	}
+
+	// マウス戯れ時の処理
+	m_updateFunc = &Myu::UpdateMousePlaying;
+	m_mousePlayingFrameCount = kMousePlayingFrame;
+
+	// マウス座標を設定
+	m_nextPos = VGet(x, y, 0.0f);
+
+	// 移動速度を上げる
+	m_roomMoveSpeed = kBaseMoveSpeed * 2;
+}
+
 void Myu::LevelUp()
 {
-	if (m_state.exp > kMaxExp * (m_state.level * 0.5))
+	// レベルアップ
+	m_state.expMax = kMaxExp * (m_state.level * 0.5);
+	if (m_state.exp > m_state.expMax)
 	{
 		m_state.level++;
 		m_state.exp = 0;
@@ -99,7 +124,7 @@ void Myu::LevelUp()
 	}
 }
 
-void Myu::StatusMaxCheck()
+void Myu::StatusLimitCheck()
 {
 	// ステータス最大値管理
 	if (m_state.hunger > kMaxStatus)
@@ -113,6 +138,20 @@ void Myu::StatusMaxCheck()
 	if (m_state.happy > kMaxStatus)
 	{
 		m_state.happy = kMaxStatus;
+	}
+
+	// ステータス最低値管理
+	if (m_state.hunger < 0)
+	{
+		m_state.hunger = 0;
+	}
+	if (m_state.sleep < 0)
+	{
+		m_state.sleep = 0;
+	}
+	if (m_state.happy < 0)
+	{
+		m_state.happy = 0;
 	}
 }
 
@@ -132,7 +171,7 @@ void Myu::UpdateRoomMove()
 	// 移動方向が0でない場合は正規化
 	if (VSize(moveDir) > 0) moveDir = VNorm(moveDir);
 	// 移動方向に速度を掛ける
-	moveDir = VScale(moveDir, kRoomMoveSpeed);
+	moveDir = VScale(moveDir, m_roomMoveSpeed);
 	// 移動
 	m_state.drawPos = VAdd(m_state.drawPos, moveDir);
 }
@@ -148,8 +187,8 @@ void Myu::UpdateIdle()
 		m_countFrame = 0;
 	}
 
-	// 感情ごとの処理
-	(this->*m_updateIdleFuncMap[emotionState::Normal])();
+	// 待機時の処理
+	(this->*m_updateFunc)();
 
 	// 部屋内の移動処理
 	UpdateRoomMove();
@@ -255,5 +294,24 @@ void Myu::UpdateIdleNormal()
 	{
 		m_nextPos.y = Game::kGameHeightBottom;
 	}
+}
+
+void Myu::UpdateMousePlaying()
+{
+	m_mousePlayingFrameCount--;
+	if (m_mousePlayingFrameCount < 0)
+	{
+		m_updateFunc = &Myu::UpdateIdleNormal;
+		m_mousePlayingFrameCount = 0;
+		m_roomMoveSpeed = kBaseMoveSpeed;
+	}
+
+	// 感情ごとの更新
+	(this->*m_updateIdleFuncMap[m_state.emotion])();
+}
+
+void Myu::UpdateNormalEmo()
+{
+	
 }
 

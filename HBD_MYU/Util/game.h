@@ -59,4 +59,11 @@ namespace Game
 	constexpr float kGameHeightBottom = Game::kChipSize * 13 - (Game::kChipSize / 2);
 	constexpr float kGameWidth = kGameWidthRight - kGameWidthLeft;
 	constexpr float kGameHeight = kGameHeightBottom - kGameHeightTop;
+	// UI•`‰æ—“‚ÌƒTƒCƒY
+	constexpr float kUiWidthLeft = 0.0f;
+	constexpr float kUiWidthRight = Game::kChipSize * 7;
+	constexpr float kUiHeightTop = 0.0f;
+	constexpr float kUiHeightBottom = Game::kChipSize * 14;
+	constexpr float kUiWidth = kUiWidthRight - kUiWidthLeft;
+	constexpr float kUiHeight = kUiHeightBottom - kUiHeightTop;
 }
