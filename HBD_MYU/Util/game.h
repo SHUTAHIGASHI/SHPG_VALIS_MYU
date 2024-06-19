@@ -56,7 +56,7 @@ namespace Game
 	constexpr float kGameWidthLeft = Game::kChipSize * 8;
 	constexpr float kGameWidthRight = kScreenWidth - Game::kChipSize;
 	constexpr float kGameHeightTop = Game::kChipSize * 4;
-	constexpr float kGameHeightBottom = Game::kChipSize * 13;
+	constexpr float kGameHeightBottom = Game::kChipSize * 13 - (Game::kChipSize / 2);
 	constexpr float kGameWidth = kGameWidthRight - kGameWidthLeft;
 	constexpr float kGameHeight = kGameHeightBottom - kGameHeightTop;
 }

@@ -21,6 +21,9 @@ public:
     // 選択項目追加
     void AddSelectItem(std::string itemName);
 
+	// ボタン判定内にカーソルがあるかどうか
+	bool IsCursorRanged() { return m_isCursorRanged; }
+
     // 選択中の項目値取得
     int GetSelectedNum() { return m_selectedPos; }
 

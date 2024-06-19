@@ -1,4 +1,5 @@
 #pragma once
+#include <list>
 #include <memory>
 #include "Myu.h"
 
@@ -51,7 +52,7 @@ private:
 
 private:
 	// お出かけ時のキャラ名
-	std::vector<std::string> m_outingCharaName;
+	std::list<std::string> m_outingCharaName;
 	// お出かけ時間カウント
 	int m_outingTimeCount;
 

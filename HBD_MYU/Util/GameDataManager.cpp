@@ -41,9 +41,9 @@ void GameDataManager::SaveCharacterData()
 	if (file.is_open())
 	{
 		// ヘッダー書き込み
-		file << "name,level,exp,hunger,happy,sleep" << std::endl;
+		file << "レベル,経験値,空腹,幸福,眠気," << std::endl;
 		// キャラクターの状態書き込み
-		file << m_charaState->name << "," << m_charaState->level << "," << m_charaState->exp << "," << m_charaState->hunger << "," << m_charaState->happy << "," << m_charaState->sleep << std::endl;
+		file << m_charaState->level << "," << m_charaState->exp << "," << m_charaState->hunger << "," << m_charaState->happy << "," << m_charaState->sleep << "," << std::endl;
 		// ファイルを閉じる
 		file.close();
 	}
@@ -97,12 +97,11 @@ void GameDataManager::LoadCharacterData()
 
 				// データに変換
 				// キャラクターの状態
-				m_charaState->name = tempData[0];
-				m_charaState->level = static_cast<int>(std::stoi(tempData[1]));
-				m_charaState->exp = static_cast<double>(std::stoi(tempData[2]));
-				m_charaState->hunger = static_cast<double>(std::stoi(tempData[3]));
-				m_charaState->happy = static_cast<double>((std::stoi(tempData[4])));
-				m_charaState->sleep = static_cast<double>((std::stoi(tempData[5])));
+				m_charaState->level = static_cast<int>(std::stoi(tempData[0]));
+				m_charaState->exp = static_cast<double>(std::stoi(tempData[1]));
+				m_charaState->hunger = static_cast<double>(std::stoi(tempData[2]));
+				m_charaState->happy = static_cast<double>((std::stoi(tempData[3])));
+				m_charaState->sleep = static_cast<double>((std::stoi(tempData[4])));
 			}
 			// 行数をカウント
 			lineCount++;

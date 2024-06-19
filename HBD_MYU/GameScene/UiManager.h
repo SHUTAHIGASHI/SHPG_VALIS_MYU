@@ -1,8 +1,9 @@
 #pragma once
+#include <DxLib.h>
 #include "Myu.h"
 #include <string>
-#include <vector>
-#include <DxLib.h>
+#include <list>
+#include <map>
 
 class UiManager
 {
@@ -24,7 +25,7 @@ public:
 	void DrawReturningText();
 
 	// 帰宅時のUI処理
-	void OnReturning(std::vector<std::string> charaName);
+	void OnReturning(std::list<std::string> charaName);
 
 	// キャラクター情報設定
 	void SetCharacterInfo(charaState charaState) { m_charaState = charaState; }
@@ -37,8 +38,11 @@ private:
 	// 描画位置
 	VECTOR m_statusDrawPos;
 	// お出かけ時のキャラ名
-	std::vector<std::string> m_outingCharaName;
+	std::list<std::string> m_outingCharaName;
 	// お出かけ後のテキスト描画カウント
 	int m_returningTextCount;
+private:
+	// UIバーのマップ
+	std::map<std::string, class UiBar*> m_uiBars;
 };
 

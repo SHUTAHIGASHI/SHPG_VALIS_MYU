@@ -93,8 +93,6 @@ void SceneMain::NormalUpdate(const InputState& input)
 
 void SceneMain::NormalDraw()
 {
-	DrawBox(Game::kGameWidthLeft, Game::kGameHeightTop, Game::kGameWidthRight, Game::kGameHeightBottom, Game::kColorWhite, false);
-
 	m_pAction->Draw();
 	m_pCharaDraw->Draw();
 }

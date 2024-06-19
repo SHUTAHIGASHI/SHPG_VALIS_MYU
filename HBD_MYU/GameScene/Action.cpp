@@ -132,6 +132,11 @@ const charaState Action::GetCharaStatus() const
 
 void Action::OnSelectItem(int index)
 {
+	if (!m_pSelectMenu->IsCursorRanged())
+	{
+		return;
+	}
+
 	// ‘I‘ğ‚µ‚½€–Ú‚É‚æ‚Á‚Äˆ—‚ğ•ªŠò
 	switch (index)
 	{
