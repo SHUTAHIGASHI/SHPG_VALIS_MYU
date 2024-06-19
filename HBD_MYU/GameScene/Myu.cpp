@@ -127,6 +127,10 @@ void Myu::UpdateRoomMove()
 
 	// ˆÚ“®•ûŒü
 	auto moveDir = VSub(m_nextPos, m_state.drawPos);
+	if(VSize(moveDir) < 1.0f)
+	{
+		return;
+	}
 	// ˆÚ“®•ûŒü‚ª0‚Å‚È‚¢ê‡‚Í³‹K‰»
 	if (VSize(moveDir) > 0) moveDir = VNorm(moveDir);
 	// ˆÚ“®•ûŒü‚É‘¬“x‚ğŠ|‚¯‚é
@@ -204,7 +208,7 @@ void Myu::UpdateIdleNormal()
 		return;
 	}
 
-	m_roomMoveFrameCount = kRoomMoveFrame;
+	m_roomMoveFrameCount = GetRand(kRoomMoveFrame);
 	// ƒ‰ƒ“ƒ_ƒ€‚Åã‰º‚ÌˆÚ“®•ûŒüæ“¾
 	// 0:“®‚©‚È‚¢ 1:ã 2:‰º
 	auto verticalMove = GetRand(2);

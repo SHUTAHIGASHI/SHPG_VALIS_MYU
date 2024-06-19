@@ -25,13 +25,17 @@ namespace Game
 	constexpr int kScreenWidthTriple = kScreenWidth * 3;
 	constexpr int kScreenHeightTriple = kScreenHeight * 3;
 	// ゲームで使う色コード
-	constexpr int kColorPink = 0xf69896;
-	constexpr int kColorCyan = 0x7db3f3;
+	constexpr int kColorGreen = 0x4e7b62;
+	constexpr int kColorRed = 0xeb4545;
 	constexpr int kColorGray = 0xbbbbbb;
 	constexpr int kColorBlack = 0x0a192c;
 	constexpr int kColorWhite = 0xffffff;
 	// ０のベクトル
 	static VECTOR kVecZero = VGet(0.0f, 0.0f, 0.0f);
+
+	// ゲームデータの保存ファイル名
+	const char* const kGameDataFileName = "Data/charaData.csv";
+
 	// フォントファイル
 	const char* const kFontFileName = "Data/fontData/Mamelon-4-Hi-Regular.otf";
 	// フォント名

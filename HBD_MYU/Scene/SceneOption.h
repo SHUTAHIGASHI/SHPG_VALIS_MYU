@@ -17,13 +17,13 @@ public:
     virtual ~SceneOption();
 
     // 初期化
-    void Init();
+    void Init() override;
     // 更新
-    void Update(const InputState& input);
+    void Update(const InputState& input) override;
     // 描画
-    void Draw();
-	// 終了
-	void End() {}
+    void Draw() override;
+    // 終了
+    void End() override {}
 
 private: // プライベート関数
     // 音量の設定
@@ -42,7 +42,7 @@ private: // プライベート関数
     void CursorUpdate(const InputState& input);
     // 選択時の処理
     void OnSelect();
-    
+
     // 選択中の文字列を返す
     std::string GetCurrentText(int textNum);
 private:
@@ -56,14 +56,15 @@ private:
     int m_volumeSE;
     // 選択位置
     int m_selectedPos;
+    // 選択項目
     std::string m_selectedItemName;
-    // 背景フレーム
-    int m_hBgFrame;
     // 画像
+    int m_hBgImg;
     int m_hMusicVolImg;
-    int m_hCursor;
     // カーソルが枠内にあるかどうか
     bool m_isCursorRanged;
     // 音量調整モード
     bool m_isVolumeChangeMode;
+    // 保存したウィンドウモード
+    bool m_isSavedWindowMode;
 };

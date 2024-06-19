@@ -31,7 +31,7 @@ public:
 	// 外出
 	void OnOuting();
 	// キャラクターステータス取得
-	const state GetCharaStatus() const;
+	const charaState GetCharaStatus() const;
 
 private:
 	// 項目選択時の処理

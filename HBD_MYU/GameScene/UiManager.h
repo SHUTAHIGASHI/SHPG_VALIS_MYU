@@ -27,13 +27,13 @@ public:
 	void OnReturning(std::vector<std::string> charaName);
 
 	// キャラクター情報設定
-	void SetCharacterInfo(state charaState) { m_charaState = charaState; }
+	void SetCharacterInfo(charaState charaState) { m_charaState = charaState; }
 	// ステータス描画位置
 	void SetStatusDrawPos(float x, float y) { m_statusDrawPos = VGet(x, y, 0.0f); }
 
 private:
 	// キャラクター情報
-	state m_charaState;
+	charaState m_charaState;
 	// 描画位置
 	VECTOR m_statusDrawPos;
 	// お出かけ時のキャラ名

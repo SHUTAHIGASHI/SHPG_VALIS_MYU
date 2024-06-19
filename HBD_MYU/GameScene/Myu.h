@@ -50,7 +50,7 @@ enum class actionState
 	Max
 };
 
-struct state
+struct charaState
 {
 	std::string name = "ミュー";
 	VECTOR drawPos = VGet(0.0f, 0.0f, 0.0f);
@@ -79,7 +79,7 @@ public:
 	void ChangeState(actionState state);
 
 	// 現在のステータス取得
-	const state GetStatus() const { return m_state; }
+	const charaState GetStatus() const { return m_state; }
 
 private:
 	// レベルアップ処理
@@ -141,7 +141,7 @@ private:
 	// 次の移動座標
 	VECTOR m_nextPos;
 	// ステータス管理
-	state m_state;
+	charaState m_state;
 	// 毎フレームカウント
 	int m_countFrame;
 	// 行動直後のフレームカウント

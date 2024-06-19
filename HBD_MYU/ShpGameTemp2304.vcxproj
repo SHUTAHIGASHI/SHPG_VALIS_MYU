@@ -23,9 +23,9 @@
     <ClCompile Include="GameScene\CharaDraw.cpp" />
     <ClCompile Include="GameScene\ItemBase.cpp" />
     <ClCompile Include="GameScene\ItemManager.cpp" />
+    <ClCompile Include="GameScene\MapDraw.cpp" />
     <ClCompile Include="GameScene\Myu.cpp" />
     <ClCompile Include="GameScene\UiManager.cpp" />
-    <ClCompile Include="MapDraw.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneDebug.cpp" />
     <ClCompile Include="Scene\SceneFade.cpp" />
@@ -49,9 +49,9 @@
     <ClInclude Include="GameScene\CharaDraw.h" />
     <ClInclude Include="GameScene\ItemBase.h" />
     <ClInclude Include="GameScene\ItemManager.h" />
+    <ClInclude Include="GameScene\MapDraw.h" />
     <ClInclude Include="GameScene\Myu.h" />
     <ClInclude Include="GameScene\UiManager.h" />
-    <ClInclude Include="MapDraw.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneDebug.h" />

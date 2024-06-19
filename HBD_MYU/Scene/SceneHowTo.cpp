@@ -40,6 +40,6 @@ void SceneHowTo::Draw()
 	float stringLength = static_cast<float>(GetDrawFormatStringWidth(kTextBack));
 	if ((m_countFrame / 10) % 6 != 0)
 	{
-		DrawFormatStringF(Game::kScreenWidthHalf - (stringLength / 2), Game::kScreenHeight - 70, Game::kColorCyan, "%s", kTextBack);
+		DrawFormatStringF(Game::kScreenWidthHalf - (stringLength / 2), Game::kScreenHeight - 70, Game::kColorGreen, "%s", kTextBack);
 	}
 }

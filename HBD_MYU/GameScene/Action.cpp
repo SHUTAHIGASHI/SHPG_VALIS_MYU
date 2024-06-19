@@ -125,7 +125,7 @@ void Action::OnOuting()
 	SetRandomCharaName();
 }
 
-const state Action::GetCharaStatus() const
+const charaState Action::GetCharaStatus() const
 {
 	return m_pMyu->GetStatus();
 }
