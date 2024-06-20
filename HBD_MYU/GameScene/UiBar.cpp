@@ -7,6 +7,8 @@ namespace
 	// ゲージの座標
 	constexpr int kGaugeW = 150;
 	constexpr int kGaugeH = 30;
+	// バーネームの描画位置補正値
+	constexpr int kBarNameOffset = 6;
 }
 
 UiBar::UiBar(int maxNum) :
@@ -58,7 +60,7 @@ void UiBar::Draw()
 	DrawBox(drawX, drawY, drawW, drawH, 0xffffff, false);
 	// バーネームの描画
 	auto textLength = GetDrawFormatStringWidth(m_barName.c_str());
-	drawX = (m_drawX - kGaugeW / 2) - 6 - textLength;
+	drawX = (m_drawX - kGaugeW / 2) - kBarNameOffset - textLength;
 	drawY = (m_drawY - 20) + kGaugeH / 2;
 	if (m_isDrawBarName)
 	{

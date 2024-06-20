@@ -110,27 +110,28 @@ void UiManager::Draw()
 void UiManager::DrawActionState()
 {
 	// 描画する状態切り替え
-	std::string actionText;
+	std::string actionText = "行動：";;
 	switch (static_cast<int>(m_charaState.action))
 	{
 	case 0:
-		actionText = "待機中";
+		actionText += "待機中";
 		break;
 	case 1:
-		actionText = "食事中";
+		actionText += "食事中";
 		break;
 	case 2:
-		actionText = "睡眠中";
+		actionText += "睡眠中";
 		break;
 	case 3:
-		actionText = "遊び中";
+		actionText += "遊び中";
 		break;
 	case 4:
-		actionText = "外出中";
+		actionText += "外出中";
 		break;
 	}
 	// 行動状態描画
-	DrawFormatString(400, 800, 0xffffff, "行動：%s", actionText.c_str());
+	auto textLength = GetDrawFormatStringWidth(actionText.c_str());
+	DrawFormatString((Game::kUiWidthRight / 2) - textLength / 2, 800, 0xffffff, "%s", actionText.c_str());
 }
 
 void UiManager::DrawReturningText()

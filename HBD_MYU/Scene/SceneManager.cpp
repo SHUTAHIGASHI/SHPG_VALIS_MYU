@@ -38,16 +38,19 @@ void SceneManager::PopScene()
 
 void SceneManager::Update(const InputState& input)
 {
+	// シーンの更新処理
 	(this->*m_updateFunc)(input);
 }
 
 void SceneManager::Draw()
 {
+	// シーンの描画処理
 	for (int i = static_cast<int>(m_Scene.size() - 1); i >= 0; --i)
 	{
 		m_Scene[i]->Draw();
 	}
 
+	// フェードシーンの描画
 	if (m_Fade != nullptr)
 	{
 		m_Fade->Draw();
@@ -56,8 +59,9 @@ void SceneManager::Draw()
 
 void SceneManager::GameEnd()
 {
+	// シーンスタックをクリア
 	ClearAllScene();
-
+	// シーン変更処理を終了
 	m_isAllUpdate = false;
 	m_isEnd = true;
 }

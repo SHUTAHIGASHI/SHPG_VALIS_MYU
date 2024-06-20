@@ -86,7 +86,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		scene.Draw();
 
 		// マウスカーソル描画
-		DrawRotaGraph(input.GetMousePosX() + 12, input.GetMousePosY() + 12, 0.2, 0.0, hCursorImg, true, false, true);
+		DrawRotaGraph(input.GetMousePosX() + 8.0f, input.GetMousePosY() + 24.0f, 0.8, 0.0, hCursorImg, true);
 
 		// 裏画面を表画面と入れ替える
 		ScreenFlip();

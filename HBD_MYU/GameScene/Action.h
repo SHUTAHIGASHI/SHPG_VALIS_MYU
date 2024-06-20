@@ -28,7 +28,7 @@ public:
 	void OnGiveFood();
 	// 寝る
 	void OnSleep();
-	// 遊んであげる
+	// レッスンに行く
 	void OnLesson();
 	// 外出
 	void OnOuting();
@@ -71,4 +71,3 @@ private:
 	// UI制御
 	class UiManager* m_pUi;
 };
-

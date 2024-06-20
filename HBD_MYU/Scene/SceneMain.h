@@ -38,7 +38,7 @@ private:
     bool m_isEnd;
 
 private:
-    // アクションメニュー
+    // アクションマネージャー
     std::shared_ptr<class Action> m_pAction;
     // キャラクター描画
     std::shared_ptr<class CharaDraw> m_pCharaDraw;

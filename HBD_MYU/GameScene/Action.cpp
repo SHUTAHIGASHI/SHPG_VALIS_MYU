@@ -35,7 +35,8 @@ Action::Action():
 	m_cursorPosX(0.0f),
 	m_cursorPosY(0.0f),
 	m_pMyu(std::make_shared<Myu>()),
-	m_pSelectMenu(std::make_shared<SelectMenuBase>())
+	m_pSelectMenu(std::make_shared<SelectMenuBase>()),
+	m_pUi(nullptr)
 {
 	// 各行動時の処理管理マップ
 	m_selectFuncMap["ごはん"] = &Action::OnGiveFood;
@@ -84,6 +85,7 @@ void Action::Draw()
 
 void Action::OnIdle()
 {
+	// 待機
 	m_pMyu->ChangeState(actionState::Idle);
 	m_updateFunc = &Action::UpdateIdle;
 }
@@ -192,6 +194,7 @@ void Action::UpdateIdle(const InputState& input)
 
 void Action::UpdateOuting(const InputState& input)
 {
+	// 外出時間カウント
 	m_outingTimeCount--;
 	if (m_outingTimeCount < 0)
 	{
