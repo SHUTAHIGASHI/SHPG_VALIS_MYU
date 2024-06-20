@@ -81,6 +81,8 @@ void Action::Draw()
 {
 	// メニューを描画
 	m_pSelectMenu->Draw();
+	// キャラクターを描画
+	m_pMyu->Draw();
 }
 
 void Action::OnIdle()

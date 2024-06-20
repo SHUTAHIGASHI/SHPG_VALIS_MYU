@@ -7,26 +7,10 @@ enum class InputType
 	all,	// 全入力
 	pause,	// ポーズ
 	select,	// 決定
-	back,	// 戻る
-	space,	// スペース
 	up,		// 上
 	down,	// 下
 	right,	// 右
 	left,	// 左
-
-	// ゲーム系ボタン
-	lookUp,			// 視点上
-	lookDown,		// 視点下
-	lookRight,		// 視点右
-	lookLeft,		// 視点左
-	moveForward,	// 前方移動
-	moveBehind,		// 後方移動
-	moveRight,		// 右移動
-	moveLeft,		// 左移動
-	dash,			// ダッシュ
-	avoid,			// 回避
-	boost,			// ブースト
-	attack			// 攻撃
 };
 
 struct MouseInputState

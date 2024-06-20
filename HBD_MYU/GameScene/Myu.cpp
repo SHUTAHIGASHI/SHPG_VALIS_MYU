@@ -1,4 +1,6 @@
 #include "Myu.h"
+#include "CharaDraw.h"
+#include "Load.h"
 
 namespace
 {
@@ -43,7 +45,8 @@ Myu::Myu() :
 	m_actionEndFrameCount(0),
 	m_roomMoveFrameCount(kRoomMoveFrame),
 	m_mousePlayingFrameCount(0),
-	m_roomMoveSpeed(kBaseMoveSpeed)
+	m_roomMoveSpeed(kBaseMoveSpeed),
+	m_pCharaDraw(std::make_shared<CharaDraw>())
 {
 	// 更新関数マップ
 	m_updateFuncMap[actionState::Idle] = &Myu::UpdateIdle;
@@ -65,12 +68,15 @@ void Myu::Init()
 {
 	// ステータス初期化
 	m_state.name = Game::kCharaName;
-	m_state.drawPos = VGet(Game::kGameWidth, Game::kGameHeight, 0.0f);
+	m_state.pos = VGet(Game::kGameWidth, Game::kGameHeight, 0.0f);
 	m_state.emotion = emotionState::Normal;
 	m_state.action = actionState::Idle;
 	GameDataManager::GetInstance().SetData(m_state);
 	// 移動先初期化
-	m_nextPos = m_state.drawPos;
+	m_nextPos = m_state.pos;
+	// キャラ描画設定
+	m_pCharaDraw->SetImage(Load::GetInstance().GetHandle("chara"));
+	m_pCharaDraw->SetPos(Game::kScreenWidthHalf, Game::kScreenHeightHalf);
 }
 
 void Myu::Update()
@@ -87,6 +93,15 @@ void Myu::Update()
 	m_state.exp += kExpIncrease;
 	// レベルアップ処理
 	LevelUp();
+
+	// キャラクターの位置を設定
+	m_pCharaDraw->SetPos(m_state.pos.x, m_state.pos.y);
+}
+
+void Myu::Draw()
+{
+	// キャラクター描画
+	m_pCharaDraw->Draw();
 }
 
 void Myu::ChangeState(actionState state)
@@ -96,8 +111,15 @@ void Myu::ChangeState(actionState state)
 
 void Myu::OnMousePlaying(float x, float y)
 {
-	if (m_mousePlayingFrameCount < 0)
+	// マウス座標
+	m_cursorPos = VGet(x, y, 0.0f);
+
+	if (m_mousePlayingFrameCount > 0)
 	{
+		if (VSize(VSub(m_state.pos, m_cursorPos)) < Game::kChipSize)
+		{
+			m_updateFunc = &Myu::UpdateMouseTake;
+		}
 		return;
 	}
 
@@ -106,7 +128,7 @@ void Myu::OnMousePlaying(float x, float y)
 	m_mousePlayingFrameCount = kMousePlayingFrame;
 
 	// マウス座標を設定
-	m_nextPos = VGet(x, y, 0.0f);
+	m_nextPos = m_cursorPos;
 
 	// 移動速度を上げる
 	m_roomMoveSpeed = kBaseMoveSpeed * 2;
@@ -163,7 +185,7 @@ void Myu::UpdateRoomMove()
 	}
 
 	// 移動方向
-	auto moveDir = VSub(m_nextPos, m_state.drawPos);
+	auto moveDir = VSub(m_nextPos, m_state.pos);
 	if(VSize(moveDir) < 1.0f)
 	{
 		return;
@@ -173,7 +195,7 @@ void Myu::UpdateRoomMove()
 	// 移動方向に速度を掛ける
 	moveDir = VScale(moveDir, m_roomMoveSpeed);
 	// 移動
-	m_state.drawPos = VAdd(m_state.drawPos, moveDir);
+	m_state.pos = VAdd(m_state.pos, moveDir);
 }
 
 void Myu::UpdateIdle()
@@ -308,6 +330,20 @@ void Myu::UpdateMousePlaying()
 
 	// 感情ごとの更新
 	(this->*m_updateIdleFuncMap[m_state.emotion])();
+}
+
+void Myu::UpdateMouseTake()
+{
+	m_mousePlayingFrameCount--;
+	if (m_mousePlayingFrameCount < 0)
+	{
+		m_updateFunc = &Myu::UpdateIdleNormal;
+		m_mousePlayingFrameCount = 0;
+		m_roomMoveSpeed = kBaseMoveSpeed;
+	}
+
+	// カーソルに握られる
+	m_state.pos = m_cursorPos;
 }
 
 void Myu::UpdateNormalEmo()

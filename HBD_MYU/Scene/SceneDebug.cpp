@@ -32,7 +32,7 @@ SceneDebug::~SceneDebug()
 
 void SceneDebug::Update(const InputState& input)
 {
-	if (input.IsTriggered(InputType::back))
+	if (input.IsTriggered(InputType::pause))
 	{
 		m_Manager.GameEnd();
 		return;

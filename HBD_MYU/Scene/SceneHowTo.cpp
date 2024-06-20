@@ -28,7 +28,7 @@ void SceneHowTo::Update(const InputState& input)
 		m_countFrame = 0;
 	}
 
-	if (input.IsTriggered(InputType::select))
+	if (input.IsTriggered(InputType::all))
 	{
 		m_Manager.PopScene();
 	}

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CursorManager.cpp" />
     <ClCompile Include="GameScene\Action.cpp" />
     <ClCompile Include="GameScene\CharaDraw.cpp" />
     <ClCompile Include="GameScene\ItemBase.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="Util\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CursorManager.h" />
     <ClInclude Include="GameScene\Action.h" />
     <ClInclude Include="GameScene\CharaDraw.h" />
     <ClInclude Include="GameScene\ItemBase.h" />

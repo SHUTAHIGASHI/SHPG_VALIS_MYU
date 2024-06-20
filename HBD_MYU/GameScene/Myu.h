@@ -53,7 +53,7 @@ enum class actionState
 struct charaState
 {
 	std::string name = "みゅーちゃん";
-	VECTOR drawPos = VGet(0.0f, 0.0f, 0.0f);
+	VECTOR pos = VGet(0.0f, 0.0f, 0.0f);
 	emotionState emotion = emotionState::Normal;
 	actionState action = actionState::Idle;
 	int level = 1;
@@ -76,6 +76,9 @@ public:
 	void Init();
 	// 更新
 	void Update();
+	// 描画
+	void Draw();
+
 	// 状態遷移
 	void ChangeState(actionState state);
 
@@ -113,6 +116,7 @@ private:
 	// 待機時の更新
 	void UpdateIdleNormal();
 	void UpdateMousePlaying();
+	void UpdateMouseTake();
 
 	// 感情ごとの関数ポインタをMAPで管理
 	std::map<emotionState, m_tUpdateFunc> m_updateIdleFuncMap;
@@ -146,6 +150,8 @@ private:
 	//void UpdateIdleFun();
 
 private:
+	// カーソル位置
+	VECTOR m_cursorPos;
 	// 次の移動座標
 	VECTOR m_nextPos;
 	// ステータス管理
@@ -160,5 +166,9 @@ private:
 	int m_mousePlayingFrameCount;
 	// 部屋の移動速度
 	float m_roomMoveSpeed;
+
+private:
+	//キャラ描画
+	std::shared_ptr<class CharaDraw> m_pCharaDraw;
 };
 

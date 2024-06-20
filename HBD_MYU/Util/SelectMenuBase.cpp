@@ -1,5 +1,6 @@
 #include "SelectMenuBase.h"
 #include "SceneManager.h"
+#include "Load.h"
 
 namespace
 {

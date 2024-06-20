@@ -70,7 +70,11 @@ bool InputState::IsTriggered(InputType type)const
 	if (type == InputType::all)
 	{
 		return !(lastPadState) &&
-			(padState);
+			(padState)||
+			!lastKeyState&&
+			keyState || 
+			!(mouseState.lastKeyMouseState) &&
+			(mouseState.keyMouseState);
 	}
 	else if (type == InputType::pause)
 	{
@@ -87,18 +91,6 @@ bool InputState::IsTriggered(InputType type)const
 			(padState & PAD_INPUT_2) ||
 			!(mouseState.lastKeyMouseState & MOUSE_INPUT_LEFT) &&
 			(mouseState.keyMouseState & MOUSE_INPUT_LEFT);
-	}
-	else if (type == InputType::back)
-	{
-		return !lastKeyState[KEY_INPUT_ESCAPE] &&
-			keyState[KEY_INPUT_ESCAPE] ||
-			!(lastPadState & PAD_INPUT_1) &&
-			(padState & PAD_INPUT_1);
-	}
-	else if (type == InputType::space)
-	{
-		return !lastKeyState[KEY_INPUT_SPACE] &&
-			keyState[KEY_INPUT_SPACE];
 	}
 	else if (type == InputType::up)
 	{
@@ -132,90 +124,6 @@ bool InputState::IsTriggered(InputType type)const
 			(padState & PAD_INPUT_LEFT) ||
 			(IsMouseWheel(true));
 	}
-	else if (type == InputType::lookUp)
-	{
-		return !lastKeyState[KEY_INPUT_UP] &&
-			keyState[KEY_INPUT_UP] ||
-			!(lastPadState & PAD_INPUT_UP) &&
-			(padState & PAD_INPUT_UP);
-	}
-	else if (type == InputType::lookDown)
-	{
-		return !lastKeyState[KEY_INPUT_DOWN] &&
-			keyState[KEY_INPUT_DOWN] ||
-			!(lastPadState & PAD_INPUT_DOWN) &&
-			(padState & PAD_INPUT_DOWN);
-	}
-	else if (type == InputType::lookRight)
-	{
-		return !lastKeyState[KEY_INPUT_RIGHT] &&
-			keyState[KEY_INPUT_RIGHT] ||
-			!(lastPadState & PAD_INPUT_RIGHT) &&
-			(padState & PAD_INPUT_RIGHT);;
-	}
-	else if (type == InputType::lookLeft)
-	{
-		return !lastKeyState[KEY_INPUT_LEFT] &&
-			keyState[KEY_INPUT_LEFT] ||
-			!(lastPadState & PAD_INPUT_LEFT) &&
-			(padState & PAD_INPUT_LEFT);
-	}
-	else if (type == InputType::moveForward)
-	{
-		return !lastKeyState[KEY_INPUT_W] &&
-			keyState[KEY_INPUT_W] ||
-			!(lastPadState & PAD_INPUT_UP) &&
-			(padState & PAD_INPUT_UP);
-	}
-	else if (type == InputType::moveBehind)
-	{
-		return !lastKeyState[KEY_INPUT_S] &&
-			keyState[KEY_INPUT_S] ||
-			!(lastPadState & PAD_INPUT_DOWN) &&
-			(padState & PAD_INPUT_DOWN);
-	}
-	else if (type == InputType::moveRight)
-	{
-		return !lastKeyState[KEY_INPUT_D] &&
-			keyState[KEY_INPUT_D] ||
-			!(lastPadState & PAD_INPUT_RIGHT) &&
-			(padState & PAD_INPUT_RIGHT);;
-	}
-	else if (type == InputType::moveLeft)
-	{
-		return !lastKeyState[KEY_INPUT_A] &&
-			keyState[KEY_INPUT_A] ||
-			!(lastPadState & PAD_INPUT_LEFT) &&
-			(padState & PAD_INPUT_LEFT);
-	}
-	else if (type == InputType::dash)
-	{
-		return !lastKeyState[KEY_INPUT_LSHIFT] &&
-			keyState[KEY_INPUT_LSHIFT] ||
-			!(lastPadState & PAD_INPUT_5) &&
-			(padState & PAD_INPUT_5);
-	}
-	else if (type == InputType::avoid)
-	{
-		return !lastKeyState[KEY_INPUT_LCONTROL] &&
-			keyState[KEY_INPUT_LCONTROL] ||
-			!(lastPadState & PAD_INPUT_5) &&
-			(padState & PAD_INPUT_5);
-	}
-	else if (type == InputType::boost)
-	{
-		return !lastKeyState[KEY_INPUT_SPACE] &&
-			keyState[KEY_INPUT_SPACE] ||
-			!(lastPadState & PAD_INPUT_5) &&
-			(padState & PAD_INPUT_5);
-	}
-	else if (type == InputType::attack)
-	{
-		return !lastKeyState[KEY_INPUT_RSHIFT] &&
-			keyState[KEY_INPUT_RSHIFT] ||
-			!(lastPadState & PAD_INPUT_5) &&
-			(padState & PAD_INPUT_5);
-	}
 
 	return false;
 }
@@ -230,16 +138,8 @@ bool InputState::IsPressed(InputType type)const
 	else if (type == InputType::select)
 	{
 		return keyState[KEY_INPUT_RETURN] ||
-			(padState & PAD_INPUT_2);
-	}
-	else if (type == InputType::back)
-	{
-		return keyState[KEY_INPUT_ESCAPE] ||
-			(padState & PAD_INPUT_1);
-	}
-	else if (type == InputType::space)
-	{
-		return keyState[KEY_INPUT_SPACE];
+			(padState & PAD_INPUT_2) ||
+			(mouseState.keyMouseState & MOUSE_INPUT_LEFT);
 	}
 	else if (type == InputType::up)
 	{
@@ -264,66 +164,6 @@ bool InputState::IsPressed(InputType type)const
 		return keyState[KEY_INPUT_LEFT] ||
 			keyState[KEY_INPUT_A] ||
 			(padState & PAD_INPUT_LEFT);
-	}
-	else if (type == InputType::lookUp)
-	{
-		return keyState[KEY_INPUT_UP] ||
-			(IsStickInput(dinputPadState.Ry, false));
-	}
-	else if (type == InputType::lookDown)
-	{
-		return keyState[KEY_INPUT_DOWN] ||
-			(IsStickInput(dinputPadState.Ry, true));
-	}
-	else if (type == InputType::lookRight)
-	{
-		return keyState[KEY_INPUT_RIGHT] ||
-			(IsStickInput(dinputPadState.Rx, true));
-	}
-	else if (type == InputType::lookLeft)
-	{
-		return keyState[KEY_INPUT_LEFT] ||
-			(IsStickInput(dinputPadState.Rx, false));
-	}
-	else if (type == InputType::moveForward)
-	{
-		return keyState[KEY_INPUT_W] ||
-			(padState & PAD_INPUT_UP);
-	}
-	else if (type == InputType::moveBehind)
-	{
-		return keyState[KEY_INPUT_S] ||
-			(padState & PAD_INPUT_DOWN);
-	}
-	else if (type == InputType::moveRight)
-	{
-		return keyState[KEY_INPUT_D] ||
-			(padState & PAD_INPUT_RIGHT);
-	}
-	else if (type == InputType::moveLeft)
-	{
-		return keyState[KEY_INPUT_A] ||
-			(padState & PAD_INPUT_LEFT);
-	}
-	else if (type == InputType::dash)
-	{
-		return keyState[KEY_INPUT_LSHIFT] ||
-			(padState & PAD_INPUT_9);
-	}
-	else if (type == InputType::avoid)
-	{
-		return keyState[KEY_INPUT_LCONTROL] ||
-			(padState & PAD_INPUT_2);
-	}
-	else if (type == InputType::boost)
-	{
-		return keyState[KEY_INPUT_SPACE] ||
-			(padState & PAD_INPUT_5);
-	}
-	else if (type == InputType::attack)
-	{
-		return keyState[KEY_INPUT_RSHIFT] ||
-			(padState & PAD_INPUT_6);
 	}
 
 	return false;

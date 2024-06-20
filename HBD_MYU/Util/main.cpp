@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "SoundManager.h"
+#include "CursorManager.h"
 #include "SceneManager.h"
 #include "SceneTitle.h"
 #include "SceneDebug.h"
@@ -49,6 +50,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// サウンドマネージャー宣言
 	auto& soundManager = SoundManager::GetInstance();
+	// カーソルマネージャー宣言
+	auto& cursorManager = CursorManager::GetInstance();
 	// キー入力状態クラス宣言
 	InputState input;
 	// シーンマネージャー宣言
@@ -79,6 +82,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 現在のシーンの更新
 		scene.Update(input);
 
+		// カーソルの更新
+		cursorManager.UpdateCursor(input);
+
 		// 背景描画
 		DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, Load::GetInstance().GetHandle("gameBg"), true);
 
@@ -86,7 +92,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		scene.Draw();
 
 		// マウスカーソル描画
-		DrawRotaGraph(input.GetMousePosX() + 8.0f, input.GetMousePosY() + 24.0f, 0.8, 0.0, hCursorImg, true);
+		cursorManager.DrawCursor();
 
 		// 裏画面を表画面と入れ替える
 		ScreenFlip();

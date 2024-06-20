@@ -13,7 +13,7 @@ namespace
 	constexpr float kLogoDrawPosX = Game::kScreenWidthHalf;
 	constexpr float kLogoDrawPosY = 300.0f;
 	// テキスト描画位置
-	constexpr float kTextDrawPosY = Game::kScreenHeightHalf + 200.0f;
+	constexpr float kTextDrawPosY = Game::kScreenHeightHalf + 160.0f;
 	constexpr float kTextDrawSpace = Game::kFontSize;
 	// テキスト
 	const char* const kMenuTexts[] = 
@@ -90,6 +90,12 @@ void SceneTitle::LoadData()
 
 void SceneTitle::OnSceneEnd()
 {
+	// カーソルが範囲内でない場合は処理しない
+	if (!m_pSelectMenu->IsCursorRanged())
+	{
+		return;
+	}
+
 	// 選択項目によってシーン遷移
 	if (m_pSelectMenu->GetSelectedNum() == 0)
 	{

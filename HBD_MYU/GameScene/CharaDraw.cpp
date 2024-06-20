@@ -13,7 +13,7 @@ CharaDraw::CharaDraw():
 
 CharaDraw::~CharaDraw()
 {
-	DeleteGraph(m_hImage);
+	m_hImage = -1;
 }
 
 void CharaDraw::Draw()
@@ -25,9 +25,9 @@ void CharaDraw::Draw()
 	DrawRotaGraphF(m_pos.x, m_pos.y, m_size, m_angle, m_hImage, true);
 }
 
-void CharaDraw::SetImage(const char* fileName)
+void CharaDraw::SetImage(int handle)
 {
-	m_hImage = LoadGraph(fileName);
+	m_hImage = handle;
 	GetGraphSize(m_hImage, &m_imageSizeX, &m_imageSizeY);
 }
 

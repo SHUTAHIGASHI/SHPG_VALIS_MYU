@@ -13,7 +13,7 @@ public:
 	void Draw();
 
 	// キャラクターの画像をセット
-	void SetImage(const char* fileName);
+	void SetImage(int handle);
 	// キャラクターの位置をセット
 	void SetPos(float x, float y);
 	// キャラクターのサイズをセット

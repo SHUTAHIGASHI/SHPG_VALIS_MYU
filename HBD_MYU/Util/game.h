@@ -28,7 +28,8 @@ namespace Game
 	constexpr int kColorGreen = 0x4e7b62;
 	constexpr int kColorRed = 0xeb4545;
 	constexpr int kColorGray = 0xbbbbbb;
-	constexpr int kColorBlack = 0x0a192c;
+	constexpr int kColorBlack = 0x231815;
+	constexpr int kColorLightBlack = 0x493a34;
 	constexpr int kColorWhite = 0xffffff;
 	// ０のベクトル
 	static VECTOR kVecZero = VGet(0.0f, 0.0f, 0.0f);
@@ -49,8 +50,6 @@ namespace Game
 
 	// キャラクターの初期名
 	const char* const kCharaName = "みゅーちゃん";
-	// キャラクター画像ファイル
-	const char* const kCharaFileName = "Data/ImageData/myuTest.png";
 
 	// ゲームのステージサイズ
 	constexpr float kGameWidthLeft = Game::kChipSize * 8;

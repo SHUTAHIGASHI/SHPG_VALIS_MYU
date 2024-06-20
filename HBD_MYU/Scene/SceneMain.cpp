@@ -23,7 +23,6 @@ SceneMain::SceneMain(SceneManager& manager):
 	m_drawFunc(&SceneMain::NormalDraw),
 	m_isEnd(false),
 	m_pAction(std::make_shared<Action>()),
-	m_pCharaDraw(std::make_shared<CharaDraw>()),
 	m_pUiManager(std::make_shared<UiManager>()),
 	m_pMapDraw(std::make_shared<MapDraw>())
 {
@@ -41,9 +40,6 @@ void SceneMain::Init()
 {
 	// ゲームデータ初期化
 	m_pAction->Init();
-	// キャラ描画設定
-	m_pCharaDraw->SetImage(Game::kCharaFileName);
-	m_pCharaDraw->SetPos(Game::kScreenWidthHalf, Game::kScreenHeightHalf);
 	// UI設定
 	m_pUiManager->Init();
 	// マップ描画設定
@@ -83,11 +79,9 @@ void SceneMain::End()
 void SceneMain::NormalUpdate(const InputState& input)
 {
 	m_pAction->Update(input);
-	m_pCharaDraw->SetPos(m_pAction->GetCharaStatus().drawPos.x, m_pAction->GetCharaStatus().drawPos.y);
 }
 
 void SceneMain::NormalDraw()
 {
 	m_pAction->Draw();
-	m_pCharaDraw->Draw();
 }

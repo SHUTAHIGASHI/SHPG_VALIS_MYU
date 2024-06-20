@@ -40,8 +40,6 @@ private:
 private:
     // アクションマネージャー
     std::shared_ptr<class Action> m_pAction;
-    // キャラクター描画
-    std::shared_ptr<class CharaDraw> m_pCharaDraw;
     // UI
     std::shared_ptr<class UiManager> m_pUiManager;
     // マップ描画
