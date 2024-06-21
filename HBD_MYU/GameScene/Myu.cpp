@@ -39,6 +39,7 @@ Myu::Myu() :
 	m_updateFuncMap(),
 	m_updateFunc(&Myu::UpdateIdleNormal),
 	m_updateIdleFuncMap(),
+	m_cursorPos(Game::kVecZero),
 	m_nextPos(Game::kVecZero),
 	m_state(),
 	m_countFrame(0),
@@ -116,7 +117,7 @@ void Myu::OnMousePlaying(float x, float y)
 
 	if (m_mousePlayingFrameCount > 0)
 	{
-		if (VSize(VSub(m_state.pos, m_cursorPos)) < Game::kChipSize)
+		if (VSize(VSub(m_state.pos, m_cursorPos)) < Game::kChipSize / 2)
 		{
 			m_updateFunc = &Myu::UpdateMouseTake;
 		}
@@ -334,13 +335,7 @@ void Myu::UpdateMousePlaying()
 
 void Myu::UpdateMouseTake()
 {
-	m_mousePlayingFrameCount--;
-	if (m_mousePlayingFrameCount < 0)
-	{
-		m_updateFunc = &Myu::UpdateIdleNormal;
-		m_mousePlayingFrameCount = 0;
-		m_roomMoveSpeed = kBaseMoveSpeed;
-	}
+	m_updateFunc = &Myu::UpdateMousePlaying;
 
 	// ƒJ[ƒ\ƒ‹‚Éˆ¬‚ç‚ê‚é
 	m_state.pos = m_cursorPos;

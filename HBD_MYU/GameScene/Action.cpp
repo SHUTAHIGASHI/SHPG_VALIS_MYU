@@ -183,7 +183,7 @@ void Action::UpdateIdle(const InputState& input)
 	m_cursorPosY = input.GetMousePosY();
 
 	// 選択時の処理
-	if (input.IsTriggered(InputType::select))
+	if (input.IsPressed(InputType::select))
 	{
 		// カーソルが範囲内でない場合は処理しない
 		if (CheckCursorRange())
