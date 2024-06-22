@@ -5,6 +5,17 @@
 #include <list>
 #include <map>
 
+struct UiLog
+{
+	UiLog(std::string log, VECTOR pos) : log(log), pos(pos) 
+	{
+		textLength = GetDrawFormatStringWidth(log.c_str());
+	}
+	std::string log;
+	int textLength;
+	VECTOR pos;
+};
+
 class UiManager
 {
 public:
@@ -19,10 +30,6 @@ public:
 	void Update();
 	// 描画
 	void Draw();
-	// 行動状態描画
-	void DrawActionState();
-	// 帰宅時のテキスト描画
-	void DrawReturningText();
 
 	// 帰宅時のUI処理
 	void OnReturning(std::list<std::string> charaName);
@@ -31,19 +38,23 @@ public:
 	void SetCharacterInfo(charaState charaState) { m_charaState = charaState; }
 	// ステータス描画位置
 	void SetStatusDrawPos(float x, float y) { m_statusDrawPos = VGet(x, y, 0.0f); }
+private:
+	// 行動状態描画
+	void DrawActionState();
+
+	// ログテキスト更新
+	void UpdateLogText();
+	// ログテキスト描画
+	void DrawLogText();
 
 private:
 	// キャラクター情報
 	charaState m_charaState;
 	// 描画位置
 	VECTOR m_statusDrawPos;
-	// お出かけ時のキャラ名
-	std::list<std::string> m_outingCharaName;
-	// お出かけ後のテキスト描画カウント
-	int m_returningTextCount;
+	// 描画するログ
+	std::list<UiLog> m_logs;
 private:
 	// UIバーのマップ
 	std::map<std::string, class UiBar*> m_uiBars;
-
 };
-

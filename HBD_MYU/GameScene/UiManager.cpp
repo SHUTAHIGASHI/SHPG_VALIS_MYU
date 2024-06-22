@@ -13,15 +13,13 @@ namespace
 	constexpr float kStatusDrawPosX = Game::kUiWidthRight / 2 + 50.0f ;
 	constexpr float kStatusDrawPosY = 220.0f;
 
-	// お出かけ後のテキスト描画時間
-	constexpr int kReturningTextDrawTime = 120;
+	// ログの流れる速度
+	constexpr int kLogSpeed = 6.0f;
 }
 
 UiManager::UiManager():
 	m_charaState(),
 	m_statusDrawPos(VGet(0.0f, 0.0f, 0.0f)),
-	m_outingCharaName(),
-	m_returningTextCount(0),
 	m_uiBars()
 {
 	m_uiBars["exp"] = new UiBar(1000);
@@ -47,12 +45,7 @@ void UiManager::Init()
 }
 
 void UiManager::Update()
-{
-	if (m_returningTextCount > 0)
-	{
-		m_returningTextCount--;
-	}
-	
+{	
 	// 数値更新
 	m_uiBars["exp"]->ChangeMaxNum(m_charaState.expMax);
 	m_uiBars["exp"]->UpdateUIData(m_charaState.exp);
@@ -68,6 +61,9 @@ void UiManager::Update()
 		uiBar.second->Update();
 		i++;
 	}
+
+	// ログ更新
+	UpdateLogText();
 }
 
 void UiManager::Draw()
@@ -94,17 +90,25 @@ void UiManager::Draw()
 
 	// 背景描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-	DrawBox(Game::kUiWidthLeft, Game::kUiHeightBottom - 200.0f, Game::kUiWidthRight, Game::kUiHeightBottom, 0x000000, true);
+	DrawBox(Game::kUiWidthLeft, Game::kUiHeightBottom - Game::kChipSize, Game::kScreenWidth, Game::kScreenHeight, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	// 現在の行動状態描画
 	DrawActionState();
 
 	// 帰宅時のテキスト描画
-	if (m_returningTextCount > 0)
+	DrawLogText();
+}
+
+void UiManager::OnReturning(std::list<std::string> charaName)
+{
+	std::string drawText = m_charaState.name + "は";
+	for (auto& name : charaName)
 	{
-		DrawReturningText();
-	}	
+		drawText += name + "と";
+	}
+	drawText += "遊んで帰ってきた！";
+	m_logs.push_back(UiLog(drawText, VGet(Game::kScreenWidth, Game::kUiHeightBottom - Game::kChipSizeHalf, 0.0f)));
 }
 
 void UiManager::DrawActionState()
@@ -134,19 +138,28 @@ void UiManager::DrawActionState()
 	DrawFormatString((Game::kUiWidthRight / 2) - textLength / 2, 800, 0xffffff, "%s", actionText.c_str());
 }
 
-void UiManager::DrawReturningText()
+void UiManager::UpdateLogText()
 {
-	std::string drawText2 = m_charaState.name + "は";
-	for (auto& name : m_outingCharaName)
+	// ログ更新
+	for (auto& log : m_logs)
 	{
-		drawText2 += name + "と";
+		log.pos.x -= kLogSpeed;
+		if (log.pos.x + log.textLength < 0.0f)
+		{
+			// ログ削除
+			m_logs.pop_front();
+			break;
+		}
 	}
-	drawText2 += "遊んで帰ってきた！";
-	DrawFormatString(0, 840, 0xffffff, "%s", drawText2.c_str());
+
+	printfDx("%d\n", m_logs.size());
 }
 
-void UiManager::OnReturning(std::list<std::string> charaName)
+void UiManager::DrawLogText()
 {
-	m_outingCharaName = charaName;
-	m_returningTextCount = kReturningTextDrawTime;
+	// ログ描画
+	for (auto& log : m_logs)
+	{
+		DrawFormatString(log.pos.x, log.pos.y, 0xffffff, "%s", log.log.c_str());
+	}
 }
