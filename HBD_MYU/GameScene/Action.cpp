@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "SelectMenuBase.h"
 #include "UiManager.h"
+#include "GameDataManager.h"
 
 namespace
 {
@@ -44,6 +45,7 @@ Action::Action():
 	m_selectFuncMap["ねむる"] = &Action::OnSleep;
 	m_selectFuncMap["レッスン"] = &Action::OnLesson;
 	m_selectFuncMap["がいしゅつ"] = &Action::OnOuting;
+	m_selectFuncMap["セーブ"] = &Action::OnSave;
 }
 
 Action::~Action()
@@ -122,6 +124,14 @@ void Action::OnOuting()
 	SetRandomCharaName();
 }
 
+void Action::OnSave()
+{
+	// セーブ
+	GameDataManager::GetInstance().SaveTempData(m_pMyu->GetStatus());
+	// UI
+	m_pUi->AddLog("セーブしました！");
+}
+
 const charaState Action::GetCharaStatus() const
 {
 	return m_pMyu->GetStatus();
@@ -142,11 +152,12 @@ void Action::OnSelectItem(int index)
 void Action::SetRandomCharaName()
 {
 	m_outingCharaName.clear();
-	unsigned int nameSize = GetRand((sizeof(kOutingCharaName) / sizeof(char*)) - 1);
+	unsigned int nameSize = GetRand((sizeof(kOutingCharaName) / sizeof(char*)));
 	if(nameSize <= 0)
 	{
 		nameSize = 1;
 	}
+
 	for (int i = 0; i < nameSize; i++)
 	{
 		unsigned int index = GetRand((sizeof(kOutingCharaName) / sizeof(char*)) - 1);

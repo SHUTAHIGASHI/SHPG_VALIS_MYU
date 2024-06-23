@@ -32,6 +32,8 @@ public:
 	void OnLesson();
 	// 外出
 	void OnOuting();
+	// セーブ
+	void OnSave();
 	// キャラクターステータス取得
 	const charaState GetCharaStatus() const;
 

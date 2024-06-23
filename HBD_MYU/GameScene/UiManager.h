@@ -7,13 +7,13 @@
 
 struct UiLog
 {
-	UiLog(std::string log, VECTOR pos) : log(log), pos(pos) 
+	UiLog(std::string log) : log(log)
 	{
 		textLength = GetDrawFormatStringWidth(log.c_str());
 	}
 	std::string log;
 	int textLength;
-	VECTOR pos;
+	VECTOR pos = VGet(Game::kScreenWidth, Game::kUiHeightBottom - Game::kChipSizeHalf, 0.0f);;
 };
 
 class UiManager
@@ -30,6 +30,9 @@ public:
 	void Update();
 	// ï`âÊ
 	void Draw();
+
+	// ÉçÉOí«â¡
+	void AddLog(std::string log);
 
 	// ãAëÓéûÇÃUIèàóù
 	void OnReturning(std::list<std::string> charaName);

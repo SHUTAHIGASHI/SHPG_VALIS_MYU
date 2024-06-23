@@ -26,19 +26,24 @@ private: // プライベート関数
     void LoadData();
     // タイトル終了時処理
     void OnSceneEnd();
+    // キャラクター更新
+	void UpdateChara();
 
     using m_tUpdateFunc = void (SceneTitle::*) (const InputState& input);
     m_tUpdateFunc m_updateFunc = nullptr;
     // タイトル画面更新処理
     void NormalUpdate(const InputState& input);
 
-private: // シーン全体の管理変数
+private: // シーンの変数
     // 毎フレームカウント用
     int m_countFrame;
-
-private: // シーン装飾の管理変数
     // 画像ハンドル
     int m_hTitleLogoImg;
+    // キャラハンドル
+	int m_hCharaImg;
+	// キャラクター座標
+	VECTOR m_charaPos;
+    VECTOR m_charaDir;
 
 private:
     // セレクトメニューの管理変数

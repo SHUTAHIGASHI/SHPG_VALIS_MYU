@@ -61,8 +61,6 @@ Myu::Myu() :
 
 Myu::~Myu()
 {
-	// データ一時保存
-	GameDataManager::GetInstance().SaveTempData(m_state);
 }
 
 void Myu::Init()
@@ -301,21 +299,21 @@ void Myu::UpdateIdleNormal()
 	}
 
 	// ステージ外に出ないようにする
-	if (m_nextPos.x < Game::kGameWidthLeft + Game::kChipSizeHalf)
+	if (m_nextPos.x < Game::kGameWidthLeft)
 	{
-		m_nextPos.x = Game::kGameWidthLeft + Game::kChipSizeHalf;
+		m_nextPos.x = Game::kGameWidthLeft;
 	}
-	if (m_nextPos.x > Game::kGameWidthRight - Game::kChipSizeHalf)
+	if (m_nextPos.x > Game::kGameWidthRight)
 	{
-		m_nextPos.x = Game::kGameWidthRight - Game::kChipSizeHalf;
+		m_nextPos.x = Game::kGameWidthRight;
 	}
 	if (m_nextPos.y < Game::kGameHeightTop)
 	{
 		m_nextPos.y = Game::kGameHeightTop;
 	}
-	if (m_nextPos.y > Game::kGameHeightBottom - Game::kChipSizeHalf)
+	if (m_nextPos.y > Game::kGameHeightBottom)
 	{
-		m_nextPos.y = Game::kGameHeightBottom - Game::kChipSizeHalf;
+		m_nextPos.y = Game::kGameHeightBottom;
 	}
 }
 

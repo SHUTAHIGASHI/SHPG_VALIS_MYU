@@ -22,6 +22,7 @@ UiManager::UiManager():
 	m_statusDrawPos(VGet(0.0f, 0.0f, 0.0f)),
 	m_uiBars()
 {
+	// UIバー初期化
 	m_uiBars["exp"] = new UiBar(1000);
 	m_uiBars["exp"]->SetColor(0x00ff00);
 	m_uiBars["exp"]->SetBarName("経験値");
@@ -100,6 +101,11 @@ void UiManager::Draw()
 	DrawLogText();
 }
 
+void UiManager::AddLog(std::string log)
+{
+	m_logs.push_back(UiLog(log));
+}
+
 void UiManager::OnReturning(std::list<std::string> charaName)
 {
 	std::string drawText = m_charaState.name + "は";
@@ -108,7 +114,7 @@ void UiManager::OnReturning(std::list<std::string> charaName)
 		drawText += name + "と";
 	}
 	drawText += "遊んで帰ってきた！";
-	m_logs.push_back(UiLog(drawText, VGet(Game::kScreenWidth, Game::kUiHeightBottom - Game::kChipSizeHalf, 0.0f)));
+	m_logs.push_back(UiLog(drawText));
 }
 
 void UiManager::DrawActionState()
@@ -151,8 +157,6 @@ void UiManager::UpdateLogText()
 			break;
 		}
 	}
-
-	printfDx("%d\n", m_logs.size());
 }
 
 void UiManager::DrawLogText()

@@ -56,28 +56,21 @@ SoundManager::~SoundManager()
 	DeleteSoundMem(m_hMusic);
 }
 
+void SoundManager::UpdateBGM()
+{
+	if (CheckSoundMem(m_hMusic) == 0)
+	{
+		int volumePal = (255 / 100) * m_volumeBGM;
+		ChangeVolumeSoundMem(volumePal, m_hMusic);
+		PlaySoundMem(m_hMusic, DX_PLAYTYPE_BACK);
+	}
+}
+
 void SoundManager::PlaySE(SoundType sound)
 {
 	int volumePal = (255 / 100) * m_volumeSE;
 	ChangeVolumeSoundMem(m_volumeSE, GetCurrentSoundHandle(sound));
 	PlaySoundMem(GetCurrentSoundHandle(sound), DX_PLAYTYPE_BACK);
-}
-
-void SoundManager::PlayMusic()
-{
-	int volumePal = (255 / 100) * m_volumeBGM;
-	ChangeVolumeSoundMem(volumePal, m_hMusic);
-	PlaySoundMem(m_hMusic, DX_PLAYTYPE_BACK);
-}
-
-void SoundManager::RestartCurrentBGM()
-{
-	PlaySoundMem(m_hMusic, DX_PLAYTYPE_BACK, false);
-}
-
-int SoundManager::IsPlayingMusic()
-{
-	return CheckSoundMem(m_hMusic);
 }
 
 void SoundManager::SetSEVolume(int volume)
@@ -106,11 +99,6 @@ void SoundManager::SetBGMRate(float rate)
 {
 	assert(0.0f <= rate && rate <= 1.0f);
 	ChangeVolumeSoundMem(static_cast<int>(static_cast<float>(m_volumeBGM) * rate), m_hMusic);
-}
-
-void SoundManager::StopBGM()
-{
-	StopSoundMem(m_hMusic);
 }
 
 SoundManager::SoundManager() :
@@ -154,5 +142,5 @@ void SoundManager::LoadData()
 	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/humu.wav"), SoundType::humu));
 
 	// ミュージック
-	m_hMusic = LoadSoundMem("Data/MusicData/I.C.E.mp3");
+	m_hMusic = LoadSoundMem("Data/MusicData/Katsuairon.mp3");
 }

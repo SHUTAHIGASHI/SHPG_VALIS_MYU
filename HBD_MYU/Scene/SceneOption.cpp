@@ -7,9 +7,9 @@ namespace
 {
 	// タイトルテキスト描画位置
 	constexpr float kTitleDrawPosX = Game::kScreenWidthHalf;
-	constexpr float kTitleDrawPosY = Game::kScreenHeightHalf - 175.0f;
+	constexpr float kTitleDrawPosY = Game::kScreenHeightHalf - 200.0f;
 	// テキスト描画位置
-	constexpr float kTextDrawPosY = Game::kScreenHeightHalf - 80.0f;
+	constexpr float kTextDrawPosY = Game::kScreenHeightHalf - 120.0f;
 	// テキスト描画間隔
 	constexpr float kTextDistance = 70.0f;
 	// サウンドテキストの間隔
@@ -20,6 +20,9 @@ namespace
 
 	// 音量変化量
 	constexpr int kVolumeChangeNum = 10;
+
+	// シーン名
+	const char* const kSceneText = "～設定～";
 
 	// テキスト
 	const char* const kMenuTexts[] = {
@@ -49,7 +52,7 @@ SceneOption::SceneOption(SceneManager& manager) :
 	m_isSavedWindowMode(false)
 {
 	// 画像読み込み
-	m_hBgImg = LoadGraph("Data/ImageData/BoardBg.png");
+	m_hBgImg = LoadGraph("Data/ImageData/OptionBg.png");
 	m_hMusicVolImg = Load::GetInstance().GetHandle("volume");
 }
 
@@ -120,6 +123,9 @@ void SceneOption::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	// 背景描画
 	DrawRotaGraphF(Game::kScreenWidthHalf, Game::kScreenHeightHalf, 1.2, 0.0, m_hBgImg, true);
+	// タイトル描画
+	auto titleLength = GetDrawFormatStringWidth(kSceneText);
+	DrawFormatStringF(kTitleDrawPosX - (titleLength / 2), kTitleDrawPosY, kTextColor, "%s", kSceneText);
 	// 項目描画
 	DrawMenuText();
 }

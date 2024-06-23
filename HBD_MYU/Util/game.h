@@ -53,10 +53,10 @@ namespace Game
 	const char* const kCharaName = "みゅーちゃん";
 
 	// ゲームのステージサイズ
-	constexpr float kGameWidthLeft = Game::kChipSize * 8;
-	constexpr float kGameWidthRight = kScreenWidth - Game::kChipSize;
+	constexpr float kGameWidthLeft = Game::kChipSize * 8 + kChipSizeHalf;
+	constexpr float kGameWidthRight = kScreenWidth - Game::kChipSize - kChipSizeHalf;
 	constexpr float kGameHeightTop = Game::kChipSize * 4;
-	constexpr float kGameHeightBottom = Game::kChipSize * 12;
+	constexpr float kGameHeightBottom = Game::kChipSize * 12 - kChipSizeHalf;
 	constexpr float kGameWidth = kGameWidthRight - kGameWidthLeft;
 	constexpr float kGameHeight = kGameHeightBottom - kGameHeightTop;
 	// UI描画欄のサイズ

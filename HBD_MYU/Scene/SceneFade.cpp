@@ -18,7 +18,7 @@ SceneFade::SceneFade(SceneManager& manager):
 	m_imgScale(kGraphScaleMin)
 {
 	// フェード処理用画像
-	m_hFadeImg = LoadGraph("Data/ImageData/Manju_Chino.png");
+	m_hFadeImg = LoadGraph("Data/ImageData/Manju_MYU.png");
 	GetGraphSize(m_hFadeImg, &m_graphSizeX, &m_graphSizeY);
 }
 

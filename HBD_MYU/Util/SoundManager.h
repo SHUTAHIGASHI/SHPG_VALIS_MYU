@@ -39,14 +39,14 @@ public:
 		return instance;
 	}
 
+	// BGMの更新
+	void UpdateBGM();
+
 	/// <summary>
 	/// 指定のサウンドを鳴らす
 	/// </summary>
 	/// <param name="name">サウンド名</param>
 	void PlaySE(SoundType sound);
-	void PlayMusic();
-	void RestartCurrentBGM();
-	int IsPlayingMusic();
 
 	/// <summary>
 	/// SEのボリュームを設定する
@@ -67,9 +67,6 @@ public:
 	/// </summary>
 	/// <param name="rate">音量の割合(一時的なもの0.0～1.0)</param>
 	void SetBGMRate(float rate);
-
-	// サウンドを全部一時停止する
-	void StopBGM();
 
 	// サウンド情報をセーブ
 	void SaveSoundConfig();

@@ -5,8 +5,6 @@
 
 namespace
 {
-	// 選択可能項目の数
-	constexpr int kSelectItemNum = 1;
 	// テキスト
 	const char* const kTextTitle = "クリックでタイトルへ戻る";
 	// スクロール速度
@@ -53,7 +51,7 @@ void SceneCredit::Update(const InputState& input)
 	}
 
 	// スクロールの範囲チェック
-	if (m_bgPos.y <= -Game::kScreenHeight * 2)
+	if (m_bgPos.y <= -m_ClearGraphY + Game::kScreenHeight)
 	{
 		m_isScrollEnd = true;
 	}
@@ -73,23 +71,6 @@ void SceneCredit::Update(const InputState& input)
 				m_bgPos.y = -Game::kScreenHeight * 3;
 			}
 		}
-
-		/*if (input.IsPressed(InputType::up))
-		{
-			m_bgPos.y += kScrollSpeed;
-			if (m_bgPos.y > 0.0f)
-			{
-				m_bgPos.y = 0.0f;
-			}
-		}
-		else if (input.IsPressed(InputType::down))
-		{
-			m_bgPos.y += -kScrollSpeed;
-			if (m_bgPos.y < -Game::kScreenHeight * 3)
-			{
-				m_bgPos.y = -Game::kScreenHeight * 3;
-			}
-		}*/
 	}
 	// スクロール後
 	else

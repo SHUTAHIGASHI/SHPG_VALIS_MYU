@@ -46,7 +46,6 @@ void ScenePause::Update(const InputState& input)
 
 	if (input.IsTriggered(InputType::pause))
 	{
-		SoundManager::GetInstance().RestartCurrentBGM();
 		m_Manager.PopScene();
 		return;
 	}
@@ -59,7 +58,6 @@ void ScenePause::Update(const InputState& input)
 
 		if (m_selectedPos == 0)
 		{
-			SoundManager::GetInstance().RestartCurrentBGM();
 			m_Manager.PopScene();
 		}
 		else if (m_selectedPos == 1)
