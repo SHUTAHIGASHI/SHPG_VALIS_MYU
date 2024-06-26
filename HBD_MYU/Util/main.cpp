@@ -59,8 +59,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//ロード
 	Load::GetInstance().AllLoadData();
-	// カーソル画像読み込み
-	int hCursorImg = Load::GetInstance().GetHandle("cursor");
 
 #ifdef _DEBUG
 	scene.ChangeScene(new SceneDebug(scene));
@@ -71,7 +69,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	while (ProcessMessage() == 0)
 	{
 		LONGLONG time = GetNowHiPerformanceCount();
-		//SetMousePoint(static_cast<int>(Game::kScreenWidthHalf), static_cast<int>(Game::kScreenHeightHalf));
 
 		// サウンドマネージャーの更新
 		soundManager.GetInstance().UpdateBGM();
@@ -100,6 +97,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 裏画面を表画面と入れ替える
 		ScreenFlip();
 
+		// ゲーム終了判定
 		if (scene.IsGameEnd()) break;
 
 #ifdef _DEBUG
@@ -113,9 +111,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	// マウスカーソル描画
 	SetMouseDispFlag(true);
-
-	// カーソル画像削除
-	hCursorImg = -1;
 	//データ削除
 	Load::GetInstance().DeleteAllData();
 	// DXライブラリ使用の終了処理

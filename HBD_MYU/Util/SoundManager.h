@@ -6,17 +6,6 @@
 enum class SoundType
 {
 	select,
-	idle,
-	correct,
-	incorrect,
-	good,
-	chino,
-	myu,
-	neffy,
-	nina,
-	rara,
-	vitte,
-	humu
 };
 
 /// <summary>

@@ -129,17 +129,6 @@ void SoundManager::LoadData()
 {
 	// サウンド
 	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/Select.wav"), SoundType::select));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/nukiuti.wav"), SoundType::idle));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/correctSE.mp3"), SoundType::correct));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/incorrectSE.mp3"), SoundType::incorrect));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/chinogood.wav"), SoundType::good));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/chinodesu.wav"), SoundType::chino));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/myudesu.wav"), SoundType::myu));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/neffydesu.wav"), SoundType::neffy));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/ninadesu.wav"), SoundType::nina));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/raradesu.wav"), SoundType::rara));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/vittedesu.wav"), SoundType::vitte));
-	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/humu.wav"), SoundType::humu));
 
 	// ミュージック
 	m_hMusic = LoadSoundMem("Data/MusicData/Katsuairon.mp3");
