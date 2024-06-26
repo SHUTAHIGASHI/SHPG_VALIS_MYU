@@ -319,8 +319,8 @@ void Myu::UpdateIdleNormal()
 
 void Myu::UpdateMousePlaying()
 {
-	m_mousePlayingFrameCount--;
-	if (m_mousePlayingFrameCount < 0)
+	//m_mousePlayingFrameCount--;
+	if (VSize(VSub(m_nextPos, m_state.pos)) < 1.0f)
 	{
 		m_updateFunc = &Myu::UpdateIdleNormal;
 		m_mousePlayingFrameCount = 0;
