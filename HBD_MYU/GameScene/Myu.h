@@ -96,6 +96,21 @@ private:
 	// 部屋内の移動処理
 	void UpdateRoomMove();
 
+	// メンバ関数ポインタ(ステート変更時の処理)
+	using m_tOnActionFunc = void (Myu::*) ();
+	// ステート変更時の処理
+	std::map<actionState, m_tOnActionFunc> m_onActionFuncMap;
+	// 待機
+	void OnIdle();
+	// 食事
+	void OnEat();
+	// 睡眠
+	void OnSleep();
+	// レッスン
+	void OnLesson();
+	// 外出
+	void OnOuting();
+
 	// メンバ関数ポインタ(ステートごとの更新)
 	using m_tUpdateFunc = void (Myu::*) ();
 	// ステートごとの関数ポインタをMAPで管理

@@ -105,6 +105,7 @@ void Action::OnSleep()
 {
 	// Q‚é
 	m_pMyu->ChangeState(actionState::Sleep);
+
 }
 
 void Action::OnLesson()

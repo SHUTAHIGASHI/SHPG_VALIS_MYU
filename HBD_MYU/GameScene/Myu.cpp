@@ -49,6 +49,13 @@ Myu::Myu() :
 	m_roomMoveSpeed(kBaseMoveSpeed),
 	m_pCharaDraw(std::make_shared<CharaDraw>())
 {
+	// 状態ごとの実行処理関数マップ
+	m_onActionFuncMap[actionState::Idle] = &Myu::OnIdle;
+	m_onActionFuncMap[actionState::Eat] = &Myu::OnEat;
+	m_onActionFuncMap[actionState::Sleep] = &Myu::OnSleep;
+	m_onActionFuncMap[actionState::Lesson] = &Myu::OnLesson;
+	m_onActionFuncMap[actionState::Outing] = &Myu::OnOuting;
+
 	// 更新関数マップ
 	m_updateFuncMap[actionState::Idle] = &Myu::UpdateIdle;
 	m_updateFuncMap[actionState::Eat] = &Myu::UpdateEat;
@@ -105,7 +112,10 @@ void Myu::Draw()
 
 void Myu::ChangeState(actionState state)
 {
+	// 状態変更
 	m_state.action = state;
+	// 状態変更時の処理
+	(this->*m_onActionFuncMap[m_state.action])();
 }
 
 void Myu::OnMousePlaying(float x, float y)
@@ -195,6 +205,31 @@ void Myu::UpdateRoomMove()
 	moveDir = VScale(moveDir, m_roomMoveSpeed);
 	// 移動
 	m_state.pos = VAdd(m_state.pos, moveDir);
+}
+
+void Myu::OnIdle()
+{
+	printfDx("OnIdle");
+}
+
+void Myu::OnEat()
+{
+	printfDx("OnEat");
+}
+
+void Myu::OnSleep()
+{
+	printfDx("OnSleep");
+}
+
+void Myu::OnLesson()
+{
+	printfDx("OnLesson");
+}
+
+void Myu::OnOuting()
+{
+	printfDx("OnOuting");
 }
 
 void Myu::UpdateIdle()
