@@ -43,6 +43,7 @@ enum class emotionState
 enum class actionState
 {
 	Idle,
+	RoomMove,
 	Eat,
 	Sleep,
 	Lesson,
@@ -56,6 +57,7 @@ struct charaState
 	VECTOR pos = VGet(0.0f, 0.0f, 0.0f);
 	emotionState emotion = emotionState::Normal;
 	actionState action = actionState::Idle;
+	actionState nextAction = actionState::Idle;
 	int level = 1;
 	double exp = 0.0;
 	double expMax = 0.0;
@@ -95,6 +97,8 @@ private:
 	void StatusLimitCheck();
 	// 部屋内の移動処理
 	void UpdateRoomMove();
+	// 部屋移動時の移動処理
+	void OnRoomMove();
 
 	// メンバ関数ポインタ(ステート変更時の処理)
 	using m_tOnActionFunc = void (Myu::*) ();
@@ -117,6 +121,8 @@ private:
 	std::map<actionState, m_tUpdateFunc> m_updateFuncMap;
 	// 状態ごとの更新
 	void UpdateIdle();
+	// 状態変更前の移動
+	void UpdateMoveBeforeChange();
 	// 食事中
 	void UpdateEat();
 	// 睡眠中
@@ -179,6 +185,8 @@ private:
 	int m_roomMoveFrameCount;
 	// マウス戯れ時のフレームカウント
 	int m_mousePlayingFrameCount;
+	// お出かけ時間カウント
+	int m_outingTimeCount;
 	// 部屋の移動速度
 	float m_roomMoveSpeed;
 

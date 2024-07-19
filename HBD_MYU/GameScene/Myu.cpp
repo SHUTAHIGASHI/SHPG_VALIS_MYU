@@ -33,6 +33,17 @@ namespace
 	constexpr float kBaseMoveSpeed = 1.0f;
 	// 経験値最大値
 	constexpr double kMaxExp = 5000.0;
+
+	// お出かけ時間上限下限
+	constexpr int kOutingTimeMax = 60 * 10;
+	constexpr int kOutingTimeMin = 60 * 5;
+	//constexpr int kOutingTimeMax = 3600 * 5;
+	//constexpr int kOutingTimeMin = 3600 * 1;
+
+	// 各種移動先座標
+	static VECTOR kBedPos = VGet(1500.0f, 300.0f, 0.0f);	// ベッドの座標
+	static VECTOR kTablePos = VGet(1000.0f, 500.0f, 0.0f);	// テーブルの座標
+	static VECTOR kDoorPos = VGet(700.0f, 730.0f, 0.0f);	// 外出時の座標
 }
 
 Myu::Myu() :
@@ -46,6 +57,7 @@ Myu::Myu() :
 	m_actionEndFrameCount(0),
 	m_roomMoveFrameCount(kRoomMoveFrame),
 	m_mousePlayingFrameCount(0),
+	m_outingTimeCount(0),
 	m_roomMoveSpeed(kBaseMoveSpeed),
 	m_pCharaDraw(std::make_shared<CharaDraw>())
 {
@@ -58,6 +70,7 @@ Myu::Myu() :
 
 	// 更新関数マップ
 	m_updateFuncMap[actionState::Idle] = &Myu::UpdateIdle;
+	m_updateFuncMap[actionState::RoomMove] = &Myu::UpdateMoveBeforeChange;
 	m_updateFuncMap[actionState::Eat] = &Myu::UpdateEat;
 	m_updateFuncMap[actionState::Sleep] = &Myu::UpdateSleep;
 	m_updateFuncMap[actionState::Lesson] = &Myu::UpdatePlay;
@@ -77,6 +90,7 @@ void Myu::Init()
 	m_state.pos = VGet(Game::kGameWidth, Game::kGameHeight, 0.0f);
 	m_state.emotion = emotionState::Normal;
 	m_state.action = actionState::Idle;
+	m_state.nextAction = actionState::Idle;
 	GameDataManager::GetInstance().SetData(m_state);
 	// 移動先初期化
 	m_nextPos = m_state.pos;
@@ -113,9 +127,9 @@ void Myu::Draw()
 void Myu::ChangeState(actionState state)
 {
 	// 状態変更
-	m_state.action = state;
+	m_state.nextAction = state;
 	// 状態変更時の処理
-	(this->*m_onActionFuncMap[m_state.action])();
+	(this->*m_onActionFuncMap[m_state.nextAction])();
 }
 
 void Myu::OnMousePlaying(float x, float y)
@@ -207,29 +221,51 @@ void Myu::UpdateRoomMove()
 	m_state.pos = VAdd(m_state.pos, moveDir);
 }
 
+void Myu::OnRoomMove()
+{
+	// 部屋内移動速度
+	m_roomMoveSpeed = kBaseMoveSpeed * 3;
+	// ステータス変化
+	m_state.action = actionState::RoomMove;
+}
+
 void Myu::OnIdle()
 {
-	printfDx("OnIdle");
+	m_roomMoveSpeed = kBaseMoveSpeed;
 }
 
 void Myu::OnEat()
 {
-	printfDx("OnEat");
+	// 移動先の座標を設定
+	m_nextPos = kTablePos;
+	// 部屋移動ステータス変化
+	OnRoomMove();
 }
 
 void Myu::OnSleep()
 {
-	printfDx("OnSleep");
+	// 移動先の座標を設定
+	m_nextPos = kBedPos;
+	// 部屋移動ステータス変化
+	OnRoomMove();
 }
 
 void Myu::OnLesson()
 {
-	printfDx("OnLesson");
+	// 移動先の座標を設定
+	m_nextPos = kDoorPos;
+	// 部屋移動ステータス変化
+	OnRoomMove();
 }
 
 void Myu::OnOuting()
 {
-	printfDx("OnOuting");
+	// 移動先の座標を設定
+	m_nextPos = kDoorPos;
+	// 部屋移動ステータス変化
+	OnRoomMove();
+	// 外出時間設定
+	m_outingTimeCount = GetRand(kOutingTimeMax - kOutingTimeMin) + kOutingTimeMin;
 }
 
 void Myu::UpdateIdle()
@@ -250,6 +286,19 @@ void Myu::UpdateIdle()
 	UpdateRoomMove();
 }
 
+void Myu::UpdateMoveBeforeChange()
+{
+	// 部屋内の移動処理
+	UpdateRoomMove();
+
+	// 移動方向
+	auto moveDir = VSub(m_nextPos, m_state.pos);
+	if (VSize(moveDir) < Game::kChipSize / 2)
+	{
+		m_state.action = m_state.nextAction;
+	}
+}
+
 void Myu::UpdateEat()
 {
 	// ステータス変化
@@ -265,13 +314,14 @@ void Myu::UpdateEat()
 void Myu::UpdateSleep()
 {
 	// ステータス変化
-	m_state.sleep -= kSleepDecrease;
+	m_state.sleep -= kSleepDecrease * 10;
 	m_state.hunger += kHungerIncrease;
 	m_state.happy += kHappyIncrease;
 	if (m_state.sleep < kInitSleep)
 	{
 		m_state.sleep = kInitSleep;
 		ChangeState(actionState::Idle);
+		printfDx("sleepend");
 	}
 }
 
@@ -290,6 +340,16 @@ void Myu::UpdateOuting()
 {
 	// ステータス変化
 	m_state.happy += kHappyIncrease * 2;
+	// 外出時間カウント
+	m_outingTimeCount--;
+	if (m_outingTimeCount < 0)
+	{
+		// お出かけ終了
+		m_outingTimeCount = 0;
+		ChangeState(actionState::Idle);
+		// UI描画
+		//m_pUi->OnReturning(m_outingCharaName);
+	}
 }
 
 void Myu::UpdateIdleNormal()

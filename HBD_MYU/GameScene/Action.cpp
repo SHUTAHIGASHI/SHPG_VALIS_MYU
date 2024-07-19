@@ -23,17 +23,10 @@ namespace
 		"ララ",
 		"ヴィッテ",
 	};
-
-	// お出かけ時間上限下限
-	constexpr int kOutingTimeMax = 60 * 2;
-	constexpr int kOutingTimeMin = 60 * 1;
-	//constexpr int kOutingTimeMax = 3600 * 5;
-	//constexpr int kOutingTimeMin = 3600 * 1;
 }
 
 Action::Action():
 	m_updateFunc(&Action::UpdateIdle),
-	m_outingTimeCount(0),
 	m_cursorPosX(0.0f),
 	m_cursorPosY(0.0f),
 	m_pMyu(std::make_shared<Myu>()),
@@ -99,28 +92,32 @@ void Action::OnGiveFood()
 {
 	// ごはんをあげる
 	m_pMyu->ChangeState(actionState::Eat);
+	// 行動時の更新処理
+	m_updateFunc = &Action::UpdateActioning;
 }
 
 void Action::OnSleep()
 {
 	// 寝る
 	m_pMyu->ChangeState(actionState::Sleep);
-
+	// 行動時の更新処理
+	m_updateFunc = &Action::UpdateActioning;
 }
 
 void Action::OnLesson()
 {
 	// レッスン
 	m_pMyu->ChangeState(actionState::Lesson);
+	// 行動時の更新処理
+	m_updateFunc = &Action::UpdateActioning;
 }
 
 void Action::OnOuting()
 {
 	// 外出
 	m_pMyu->ChangeState(actionState::Outing);
-	m_updateFunc = &Action::UpdateOuting;
-	// 外出時間設定
-	m_outingTimeCount = GetRand(kOutingTimeMax - kOutingTimeMin) + kOutingTimeMin;
+	// 行動時の更新処理
+	m_updateFunc = &Action::UpdateActioning;
 	// 外出時のキャラ名設定
 	SetRandomCharaName();
 }
@@ -191,6 +188,8 @@ bool Action::CheckCursorRange()
 
 void Action::UpdateIdle(const InputState& input)
 {
+	printfDx("idle");
+
 	// カーソル座標更新
 	m_cursorPosX = input.GetMousePosX();
 	m_cursorPosY = input.GetMousePosY();
@@ -207,15 +206,11 @@ void Action::UpdateIdle(const InputState& input)
 	}
 }
 
-void Action::UpdateOuting(const InputState& input)
+void Action::UpdateActioning(const InputState& input)
 {
-	// 外出時間カウント
-	m_outingTimeCount--;
-	if (m_outingTimeCount < 0)
+	if (m_pMyu->GetStatus().action == actionState::Idle)
 	{
-		// お出かけ終了
-		m_outingTimeCount = 0;
+		// 待機状態になったら待機処理へ
 		OnIdle();
-		m_pUi->OnReturning(m_outingCharaName);
 	}
 }

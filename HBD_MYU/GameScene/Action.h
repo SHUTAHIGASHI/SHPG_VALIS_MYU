@@ -22,6 +22,10 @@ public:
 	// 描画
 	void Draw();
 
+	// キャラクターステータス取得
+	const charaState GetCharaStatus() const;
+
+private:
 	// 待機状態に戻る
 	void OnIdle();
 	// 餌をあげる
@@ -34,10 +38,7 @@ public:
 	void OnOuting();
 	// セーブ
 	void OnSave();
-	// キャラクターステータス取得
-	const charaState GetCharaStatus() const;
 
-private:
 	// 項目選択時の処理
 	void OnSelectItem(int index);
 	// ランダムでキャラ名を選択
@@ -50,7 +51,7 @@ private:
 	m_tUpdateFunc m_updateFunc = nullptr;
 	// 状態ごとの更新
 	void UpdateIdle(const InputState& input);
-	void UpdateOuting(const InputState& input);
+	void UpdateActioning(const InputState& input);
 
 	// 各行動時の処理管理マップ
 	using m_tSelectFunc = void (Action::*) ();
@@ -59,8 +60,6 @@ private:
 private:
 	// お出かけ時のキャラ名
 	std::list<std::string> m_outingCharaName;
-	// お出かけ時間カウント
-	int m_outingTimeCount;
 	// カーソル座標
 	float m_cursorPosX;
 	float m_cursorPosY;

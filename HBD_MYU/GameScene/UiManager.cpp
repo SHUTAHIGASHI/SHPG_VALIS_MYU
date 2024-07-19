@@ -127,15 +127,18 @@ void UiManager::DrawActionState()
 		actionText += "待機中";
 		break;
 	case 1:
-		actionText += "食事中";
+		actionText += "移動中";
 		break;
 	case 2:
-		actionText += "睡眠中";
+		actionText += "食事中";
 		break;
 	case 3:
-		actionText += "遊び中";
+		actionText += "睡眠中";
 		break;
 	case 4:
+		actionText += "レッスン中";
+		break;
+	case 5:
 		actionText += "外出中";
 		break;
 	}

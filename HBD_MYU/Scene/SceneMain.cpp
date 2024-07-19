@@ -59,6 +59,9 @@ void SceneMain::Update(const InputState& input)
 	// UI更新
 	m_pUiManager->Update();
 	m_pUiManager->SetCharacterInfo(m_pAction->GetCharaStatus());
+
+	// カーソル座標
+	printfDx("x:%d y:%d\n", input.GetMousePosX(), input.GetMousePosY());
 }
 
 void SceneMain::Draw()
