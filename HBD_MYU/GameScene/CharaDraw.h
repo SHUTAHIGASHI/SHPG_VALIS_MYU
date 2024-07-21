@@ -12,6 +12,8 @@ public:
 	// 描画
 	void Draw();
 
+	// キャラクター描画判定をセット
+	void SetDraw(bool isDraw) { m_isDraw = isDraw; }
 	// キャラクターの画像をセット
 	void SetImage(int handle);
 	// キャラクターの位置をセット
@@ -24,6 +26,8 @@ public:
 	void SetEmotion(emotionState emotion);
 
 private:
+	// キャラクター描画判定
+	bool m_isDraw;
 	// 描画画像
 	int m_hImage;
 	// 画像サイズ

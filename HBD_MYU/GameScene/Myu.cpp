@@ -126,10 +126,17 @@ void Myu::Draw()
 
 void Myu::ChangeState(actionState state)
 {
-	// ó‘Ô•ÏX
-	m_state.nextAction = state;
+	if (state == actionState::Idle)
+	{
+		m_state.action = state;
+	}
+	else
+	{
+		m_state.nextAction = state;
+	}
+
 	// ó‘Ô•ÏXŽž‚Ìˆ—
-	(this->*m_onActionFuncMap[m_state.nextAction])();
+	(this->*m_onActionFuncMap[state])();
 }
 
 void Myu::OnMousePlaying(float x, float y)

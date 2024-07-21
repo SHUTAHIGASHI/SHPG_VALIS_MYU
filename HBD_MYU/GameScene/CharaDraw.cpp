@@ -1,6 +1,7 @@
 #include "CharaDraw.h"
 
 CharaDraw::CharaDraw():
+	m_isDraw(false),
 	m_hImage(-1),
 	m_imageSizeX(0),
 	m_imageSizeY(0),
@@ -18,6 +19,11 @@ CharaDraw::~CharaDraw()
 
 void CharaDraw::Draw()
 {
+	if (!zm_isDraw)
+	{
+		return;
+	}
+
 	// ‰æ‘œ‚Ì•`‰æ
 	DrawBox(m_pos.x - m_imageSizeX / 2, m_pos.y - m_imageSizeY / 2,
 		m_pos.x + m_imageSizeX / 2, m_pos.y + m_imageSizeY / 2, 
