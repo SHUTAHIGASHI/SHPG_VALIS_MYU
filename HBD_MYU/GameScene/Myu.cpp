@@ -49,7 +49,6 @@ namespace
 Myu::Myu() :
 	m_updateFuncMap(),
 	m_updateFunc(&Myu::UpdateIdleNormal),
-	m_updateIdleFuncMap(),
 	m_cursorPos(Game::kVecZero),
 	m_nextPos(Game::kVecZero),
 	m_state(),
@@ -75,8 +74,6 @@ Myu::Myu() :
 	m_updateFuncMap[actionState::Sleep] = &Myu::UpdateSleep;
 	m_updateFuncMap[actionState::Lesson] = &Myu::UpdatePlay;
 	m_updateFuncMap[actionState::Outing] = &Myu::UpdateOuting;
-	// 待機状態の感情ごとの更新関数マップ
-	m_updateIdleFuncMap[emotionState::Normal] = &Myu::UpdateNormalEmo;
 }
 
 Myu::~Myu()
@@ -277,6 +274,9 @@ void Myu::OnOuting()
 
 void Myu::UpdateIdle()
 {
+	// キャラ描画状態変更
+	m_pCharaDraw->SetDraw(true);
+
 	// ステータス変化
 	if(m_countFrame % 30 == 0)
 	{
@@ -295,6 +295,9 @@ void Myu::UpdateIdle()
 
 void Myu::UpdateMoveBeforeChange()
 {
+	// キャラ描画状態変更
+	m_pCharaDraw->SetDraw(true);
+
 	// 部屋内の移動処理
 	UpdateRoomMove();
 
@@ -308,6 +311,9 @@ void Myu::UpdateMoveBeforeChange()
 
 void Myu::UpdateEat()
 {
+	// キャラ描画状態変更
+	m_pCharaDraw->SetDraw(false);
+
 	// ステータス変化
 	m_state.hunger -= kHungerDecrease;
 	m_state.sleep += kSleepIncrease;
@@ -320,6 +326,9 @@ void Myu::UpdateEat()
 
 void Myu::UpdateSleep()
 {
+	// キャラ描画状態変更
+	m_pCharaDraw->SetDraw(false);
+
 	// ステータス変化
 	m_state.sleep -= kSleepDecrease * 10;
 	m_state.hunger += kHungerIncrease;
@@ -334,6 +343,9 @@ void Myu::UpdateSleep()
 
 void Myu::UpdatePlay()
 {
+	// キャラ描画状態変更
+	m_pCharaDraw->SetDraw(false);
+
 	// ステータス変化
 	m_state.happy += kHappyDecrease;
 	if (m_state.happy > kInitHappy)
@@ -345,6 +357,9 @@ void Myu::UpdatePlay()
 
 void Myu::UpdateOuting()
 {
+	// キャラ描画状態変更
+	m_pCharaDraw->SetDraw(false);
+
 	// ステータス変化
 	m_state.happy += kHappyIncrease * 2;
 	// 外出時間カウント
@@ -430,7 +445,7 @@ void Myu::UpdateMousePlaying()
 	}
 
 	// 感情ごとの更新
-	(this->*m_updateIdleFuncMap[m_state.emotion])();
+	// (this->*m_updateIdleFuncMap[m_state.emotion])();
 }
 
 void Myu::UpdateMouseTake()
@@ -442,9 +457,3 @@ void Myu::UpdateMouseTake()
 	// カーソルに握られる
 	m_state.pos = m_cursorPos;
 }
-
-void Myu::UpdateNormalEmo()
-{
-	
-}
-

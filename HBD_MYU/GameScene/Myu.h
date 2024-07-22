@@ -139,37 +139,6 @@ private:
 	void UpdateMousePlaying();
 	void UpdateMouseTake();
 
-	// 感情ごとの関数ポインタをMAPで管理
-	std::map<emotionState, m_tUpdateFunc> m_updateIdleFuncMap;
-	// 状態ごとの更新
-	void UpdateNormalEmo();
-	//// 幸せ
-	//void UpdateIdleHappy();
-	//// 悲しい
-	//void UpdateIdleSad();
-	//// 怒り
-	//void UpdateIdleAngry();
-	//// 驚き
-	//void UpdateIdleSurprise();
-	//// 疲れ
-	//void UpdateIdleTired();
-	//// 眠い
-	//void UpdateIdleSleepy();
-	//// 空腹
-	//void UpdateIdleHungry();
-	//// 歌いたい
-	//void UpdateIdleSing();
-	//// 踊りたい
-	//void UpdateIdleDance();
-	//// 遊びたい
-	//void UpdateIdlePlay();
-	//// お散歩
-	//void UpdateIdleOuting();
-	//// 料理したい
-	//void UpdateIdleCook();
-	//// 楽しい
-	//void UpdateIdleFun();
-
 private:
 	// カーソル位置
 	VECTOR m_cursorPos;

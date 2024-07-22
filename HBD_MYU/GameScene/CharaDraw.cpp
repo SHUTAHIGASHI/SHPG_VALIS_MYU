@@ -19,7 +19,7 @@ CharaDraw::~CharaDraw()
 
 void CharaDraw::Draw()
 {
-	if (!zm_isDraw)
+	if (!m_isDraw)
 	{
 		return;
 	}
