@@ -39,6 +39,9 @@ Action::Action():
 	m_selectFuncMap["レッスン"] = &Action::OnLesson;
 	m_selectFuncMap["がいしゅつ"] = &Action::OnOuting;
 	m_selectFuncMap["セーブ"] = &Action::OnSave;
+
+	// 自身のポインタをキャラに渡す
+	m_pMyu->SetAction(this);
 }
 
 Action::~Action()
@@ -47,6 +50,7 @@ Action::~Action()
 
 void Action::Init()
 {
+	// 選択メニュー初期化
 	m_pSelectMenu->Init(true);
 	for(auto& item : kMenuItems)
 	{
@@ -81,53 +85,17 @@ void Action::Draw()
 	m_pMyu->Draw();
 }
 
+void Action::OnReturnHome()
+{
+	// UI描画
+	m_pUi->OnReturning(m_outingCharaName);
+}
+
 void Action::OnIdle()
 {
 	// 待機
 	m_pMyu->ChangeState(actionState::Idle);
 	m_updateFunc = &Action::UpdateIdle;
-}
-
-void Action::OnGiveFood()
-{
-	// ごはんをあげる
-	m_pMyu->ChangeState(actionState::Eat);
-	// 行動時の更新処理
-	m_updateFunc = &Action::UpdateActioning;
-}
-
-void Action::OnSleep()
-{
-	// 寝る
-	m_pMyu->ChangeState(actionState::Sleep);
-	// 行動時の更新処理
-	m_updateFunc = &Action::UpdateActioning;
-}
-
-void Action::OnLesson()
-{
-	// レッスン
-	m_pMyu->ChangeState(actionState::Lesson);
-	// 行動時の更新処理
-	m_updateFunc = &Action::UpdateActioning;
-}
-
-void Action::OnOuting()
-{
-	// 外出
-	m_pMyu->ChangeState(actionState::Outing);
-	// 行動時の更新処理
-	m_updateFunc = &Action::UpdateActioning;
-	// 外出時のキャラ名設定
-	SetRandomCharaName();
-}
-
-void Action::OnSave()
-{
-	// セーブ
-	GameDataManager::GetInstance().SaveTempData(m_pMyu->GetStatus());
-	// UI
-	m_pUi->AddLog("セーブしました！");
 }
 
 const charaState Action::GetCharaStatus() const
@@ -188,8 +156,6 @@ bool Action::CheckCursorRange()
 
 void Action::UpdateIdle(const InputState& input)
 {
-	printfDx("idle");
-
 	// カーソル座標更新
 	m_cursorPosX = input.GetMousePosX();
 	m_cursorPosY = input.GetMousePosY();
@@ -213,4 +179,46 @@ void Action::UpdateActioning(const InputState& input)
 		// 待機状態になったら待機処理へ
 		OnIdle();
 	}
+}
+
+void Action::OnGiveFood()
+{
+	// ごはんをあげる
+	m_pMyu->ChangeState(actionState::Eat);
+	// 行動時の更新処理
+	m_updateFunc = &Action::UpdateActioning;
+}
+
+void Action::OnSleep()
+{
+	// 寝る
+	m_pMyu->ChangeState(actionState::Sleep);
+	// 行動時の更新処理
+	m_updateFunc = &Action::UpdateActioning;
+}
+
+void Action::OnLesson()
+{
+	// レッスン
+	m_pMyu->ChangeState(actionState::Lesson);
+	// 行動時の更新処理
+	m_updateFunc = &Action::UpdateActioning;
+}
+
+void Action::OnOuting()
+{
+	// 外出
+	m_pMyu->ChangeState(actionState::Outing);
+	// 行動時の更新処理
+	m_updateFunc = &Action::UpdateActioning;
+	// 外出時のキャラ名設定
+	SetRandomCharaName();
+}
+
+void Action::OnSave()
+{
+	// セーブ
+	GameDataManager::GetInstance().SaveTempData(m_pMyu->GetStatus());
+	// UI
+	m_pUi->AddLog("セーブしました！");
 }

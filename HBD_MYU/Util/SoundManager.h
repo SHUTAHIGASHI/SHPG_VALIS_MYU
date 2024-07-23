@@ -1,5 +1,6 @@
 #pragma once
 #include <unordered_map>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -27,6 +28,9 @@ public:
 		// それの参照を返す
 		return instance;
 	}
+
+	// BGMの変更
+	void SetBGM(const std::string& name);
 
 	// BGMの更新
 	void UpdateBGM();
@@ -105,5 +109,7 @@ private:
 	std::vector<SoundData> m_soundData;
 
 	// ミュージックデータハンドル
-	int m_hMusic;
+	std::map<std::string,int> m_hMusic;
+	// 現在再生中の音楽ハンドル
+	int m_hCurrentMusic;
 };

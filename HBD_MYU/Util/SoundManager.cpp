@@ -53,16 +53,32 @@ SoundManager::~SoundManager()
 	m_soundData.clear();
 
 	// 曲データ
-	DeleteSoundMem(m_hMusic);
+	DeleteSoundMem(m_hCurrentMusic);
+}
+
+void SoundManager::SetBGM(const std::string& name)
+{
+	// すでに再生中の曲があれば停止
+	if (m_hCurrentMusic != -1)
+	{
+		StopSoundMem(m_hCurrentMusic);
+	}
+
+	// 曲を変更
+	m_hCurrentMusic = m_hMusic[name];
+
+	// 音量を設定
+	int volumePal = (255 / 100) * m_volumeBGM;
+	ChangeVolumeSoundMem(volumePal, m_hCurrentMusic);
 }
 
 void SoundManager::UpdateBGM()
 {
-	if (CheckSoundMem(m_hMusic) == 0)
+	if (CheckSoundMem(m_hCurrentMusic) == 0)
 	{
 		int volumePal = (255 / 100) * m_volumeBGM;
-		ChangeVolumeSoundMem(volumePal, m_hMusic);
-		PlaySoundMem(m_hMusic, DX_PLAYTYPE_BACK);
+		ChangeVolumeSoundMem(volumePal, m_hCurrentMusic);
+		PlaySoundMem(m_hCurrentMusic, DX_PLAYTYPE_BACK);
 	}
 }
 
@@ -87,7 +103,7 @@ void SoundManager::SetBGMVolume(int volume)
 {
 	m_volumeBGM = volume;
 	int volumePal = (255 / 100) * m_volumeBGM;
-	ChangeVolumeSoundMem(volumePal, m_hMusic);
+	ChangeVolumeSoundMem(volumePal, m_hCurrentMusic);
 }
 
 int SoundManager::GetBGMVolume() const
@@ -98,15 +114,20 @@ int SoundManager::GetBGMVolume() const
 void SoundManager::SetBGMRate(float rate)
 {
 	assert(0.0f <= rate && rate <= 1.0f);
-	ChangeVolumeSoundMem(static_cast<int>(static_cast<float>(m_volumeBGM) * rate), m_hMusic);
+	ChangeVolumeSoundMem(static_cast<int>(static_cast<float>(m_volumeBGM) * rate), m_hCurrentMusic);
 }
 
 SoundManager::SoundManager() :
 	m_soundData(),
-	m_hMusic(-1)
+	m_hMusic(),
+	m_hCurrentMusic(-1)
 {
+	// 音データ読み込み
 	LoadSoundConfig();
 	LoadData();
+
+	// BGM設定
+	m_hCurrentMusic = m_hMusic["katsuairon"];
 }
 
 int SoundManager::GetCurrentSoundHandle(SoundType sound)
@@ -131,5 +152,6 @@ void SoundManager::LoadData()
 	m_soundData.push_back(SoundData(LoadSoundMem("Data/SoundData/Select.wav"), SoundType::select));
 
 	// ミュージック
-	m_hMusic = LoadSoundMem("Data/MusicData/Katsuairon.mp3");
+	m_hMusic["katsuairon"] = LoadSoundMem("Data/MusicData/Katsuairon.mp3");
+	m_hMusic["henitai"] = LoadSoundMem("Data/MusicData/Hen-itai.mp3");
 }

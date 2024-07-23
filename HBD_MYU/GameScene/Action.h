@@ -22,22 +22,15 @@ public:
 	// 描画
 	void Draw();
 
+	// 帰宅時の処理
+	void OnReturnHome();
+
 	// キャラクターステータス取得
 	const charaState GetCharaStatus() const;
 
 private:
 	// 待機状態に戻る
 	void OnIdle();
-	// 餌をあげる
-	void OnGiveFood();
-	// 寝る
-	void OnSleep();
-	// レッスンに行く
-	void OnLesson();
-	// 外出
-	void OnOuting();
-	// セーブ
-	void OnSave();
 
 	// 項目選択時の処理
 	void OnSelectItem(int index);
@@ -56,6 +49,16 @@ private:
 	// 各行動時の処理管理マップ
 	using m_tSelectFunc = void (Action::*) ();
 	std::map<std::string, m_tSelectFunc> m_selectFuncMap;
+	// 餌をあげる
+	void OnGiveFood();
+	// 寝る
+	void OnSleep();
+	// レッスンに行く
+	void OnLesson();
+	// 外出
+	void OnOuting();
+	// セーブ
+	void OnSave();
 
 private:
 	// お出かけ時のキャラ名

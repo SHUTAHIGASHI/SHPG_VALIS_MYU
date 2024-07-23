@@ -61,7 +61,7 @@ void SceneMain::Update(const InputState& input)
 	m_pUiManager->SetCharacterInfo(m_pAction->GetCharaStatus());
 
 	// カーソル座標
-	printfDx("x:%d y:%d\n", input.GetMousePosX(), input.GetMousePosY());
+	//printfDx("x:%d y:%d\n", input.GetMousePosX(), input.GetMousePosY());
 }
 
 void SceneMain::Draw()
@@ -75,7 +75,7 @@ void SceneMain::Draw()
 	m_pUiManager->Draw();
 
 	// ステージ範囲描画
-	DrawBox(Game::kGameWidthLeft, Game::kGameHeightTop, Game::kGameWidthRight, Game::kGameHeightBottom, GetColor(255, 255, 255), FALSE);
+	//DrawBox(Game::kGameWidthLeft, Game::kGameHeightTop, Game::kGameWidthRight, Game::kGameHeightBottom, GetColor(255, 255, 255), FALSE);
 }
 
 void SceneMain::End()

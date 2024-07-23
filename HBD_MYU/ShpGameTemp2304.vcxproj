@@ -28,6 +28,7 @@
     <ClCompile Include="GameScene\Myu.cpp" />
     <ClCompile Include="GameScene\UiBar.cpp" />
     <ClCompile Include="GameScene\UiManager.cpp" />
+    <ClCompile Include="SceneLesson.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneDebug.cpp" />
     <ClCompile Include="Scene\SceneFade.cpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="GameScene\UiBar.h" />
     <ClInclude Include="GameScene\UiManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SceneLesson.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneDebug.h" />
     <ClInclude Include="Scene\SceneFade.h" />

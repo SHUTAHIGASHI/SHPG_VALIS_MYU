@@ -74,6 +74,9 @@ public:
 	// デストラクタ
 	~Myu();
 
+	// アクションクラスのセット
+	void SetAction(class Action* pAction) { m_pAction = pAction; }
+
 	// 初期化
 	void Init();
 	// 更新
@@ -160,7 +163,9 @@ private:
 	float m_roomMoveSpeed;
 
 private:
-	//キャラ描画
+	// キャラ描画
 	std::shared_ptr<class CharaDraw> m_pCharaDraw;
+	// アクション管理クラス
+	class Action* m_pAction;
 };
 

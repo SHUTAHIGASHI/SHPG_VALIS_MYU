@@ -1,6 +1,8 @@
 #include "Myu.h"
 #include "CharaDraw.h"
 #include "Load.h"
+#include "UiManager.h"
+#include "Action.h"
 
 namespace
 {
@@ -58,7 +60,8 @@ Myu::Myu() :
 	m_mousePlayingFrameCount(0),
 	m_outingTimeCount(0),
 	m_roomMoveSpeed(kBaseMoveSpeed),
-	m_pCharaDraw(std::make_shared<CharaDraw>())
+	m_pCharaDraw(std::make_shared<CharaDraw>()),
+	m_pAction(nullptr)
 {
 	// 状態ごとの実行処理関数マップ
 	m_onActionFuncMap[actionState::Idle] = &Myu::OnIdle;
@@ -337,7 +340,6 @@ void Myu::UpdateSleep()
 	{
 		m_state.sleep = kInitSleep;
 		ChangeState(actionState::Idle);
-		printfDx("sleepend");
 	}
 }
 
@@ -369,8 +371,8 @@ void Myu::UpdateOuting()
 		// お出かけ終了
 		m_outingTimeCount = 0;
 		ChangeState(actionState::Idle);
-		// UI描画
-		//m_pUi->OnReturning(m_outingCharaName);
+		// 帰宅時の処理
+		m_pAction->OnReturnHome();
 	}
 }
 
